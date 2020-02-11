@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home), #añadi las urls que tendrá el sistema de reservas en un path solo ''
+    path('home', views.home), #añadi las urls que tendrá el sistema de reservas en un path solo 'home/'
     path('reservar/', include('reservas.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'reservas/'
     path('contacto/', include('contacto.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'contacto/'
 ]
