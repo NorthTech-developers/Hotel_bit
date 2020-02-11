@@ -7,7 +7,7 @@ class contacto(models.Model):
     last_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=30)
     email = models.EmailField()
-    mensaje = models.TextField()
+    message = models.TextField()
     
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
