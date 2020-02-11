@@ -18,8 +18,11 @@ from django.urls import path, include
 from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home), #añadi las urls que tendrá el sistema de reservas en un path solo ''
-    path('home', views.home), #añadi las urls que tendrá el sistema de reservas en un path solo 'home/'
+    path('', views.home), #añadi las url home de inicio
+    path('home', views.home), #añadi las url home
+    path('habitaciones', views.habitaciones), #añadi las url habitaciones
+    path('galeria', views.galeria), #añadi las url galeria
+    path('sobre_nosotros', views.sobre_nosotros), #añadi las url sobre_nosotros
     path('reservar/', include('reservas.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'reservas/'
     path('contacto/', include('contacto.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'contacto/'
 ]

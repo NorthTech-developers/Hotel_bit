@@ -1,4 +1,4 @@
-{% load static %}
+<strong></strong>{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,7 +75,7 @@
                     <nav class="classy-navbar justify-content-between" id="robertoNav">
 
                         <!-- Logo -->
-                        <a class="nav-brand" href="#"><img src="{% static './img/core-img/logo.png' %}" alt=""></a>
+                        <a class="nav-brand" href="home"><img src="{% static './img/core-img/logo.png' %}" alt=""></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -91,29 +91,19 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul id="nav">
-                                    <li class="active"><a href="./index.html">Inicio</a></li>
-                                    <li><a href="./room.html">Habitaciones</a></li>
-                                    <li><a href="./about.html">Sobre nosotros</a></li>
-                                    <li><a href="#">Pages</a>
-                                        <ul class="dropdown">
-                                            <li><a href="./index.html">- Home</a></li>
-                                            <li><a href="./room.html">- Rooms</a></li>
-                                            <li><a href="./single-room.html">- Single Rooms</a></li>
-                                            <li><a href="./about.html">- About Us</a></li>
-                                            <li><a href="./blog.html">- Blog</a></li>
-                                            <li><a href="./single-blog.html">- Single Blog</a></li>
-                                            <li><a href="./contact.html">- Contact</a></li>
-                                            <li><a href="#">- Dropdown</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="#">- Dropdown Item</a></li>
-                                                    <li><a href="#">- Dropdown Item</a></li>
-                                                    <li><a href="#">- Dropdown Item</a></li>
-                                                    <li><a href="#">- Dropdown Item</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
+                                    <li class="active"><a href="home">Inicio</a></li>
+                                    <li><a href="habitaciones">Habitaciones</a>
+                                         <ul class="dropdown">
+                                            <li><a href="#">- Habitacion 1</a></li>
+                                             <li><a href="#">- Habitacion 2</a></li>
+                                             <li><a href="#">- Habitacion 3</a></li>
+                                              <li><a href="#">- Habitacion 4</a></li>
+                                          </ul>
                                     </li>
-                                    <li><a href="./contact.html">Contacto</a></li>
+                                  
+                                    <li><a href="galeria">Galeria</a></li>
+                                    <li><a href="sobre_nosotros">Sobre nosotros</a></li>                                 
+                                    <li><a href="contacto">Contacto</a></li>
                                 </ul>
 
                                 <!-- Search -->
@@ -139,7 +129,7 @@
     <section class="welcome-area">
         <div class="welcome-slides owl-carousel">
             <!-- Single Welcome Slide -->
-            <div class="single-welcome-slide bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/16.jpg' %});" data-img-url="img/bg-img/16.jpg">
+            <div class="single-welcome-slide bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/16.jpg' %});" data-img-url="{% static 'img/bg-img/16.jpg' %}">
                 <!-- Welcome Content -->
                 <div class="welcome-content h-100">
                     <div class="container h-100">
@@ -157,7 +147,7 @@
             </div>
 
             <!-- Single Welcome Slide -->
-            <div class="single-welcome-slide bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/17.jpg' %});" data-img-url="img/bg-img/17.jpg">
+            <div class="single-welcome-slide bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/17.jpg' %});" data-img-url="{% static 'img/bg-img/17.jpg' %}">
                 <!-- Welcome Content -->
                 <div class="welcome-content h-100">
                     <div class="container h-100">
@@ -176,7 +166,7 @@
             </div>
 
             <!-- Single Welcome Slide -->
-            <div class="single-welcome-slide bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/18.jpg' %});" data-img-url="img/bg-img/18.jpg">
+            <div class="single-welcome-slide bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/18.jpg' %});" data-img-url="{% static 'img/bg-img/18.jpg' %}">
                 <!-- Welcome Content -->
                 <div class="welcome-content h-100">
                     <div class="container h-100">
@@ -340,7 +330,7 @@
             <!-- Single Room Slide -->
             <div class="single-room-slide d-flex align-items-center">
                 <!-- Thumbnail -->
-                <div class="room-thumbnail h-100 bg-img" style="background-image: url(img/bg-img/16.jpg);"></div>
+                <div class="room-thumbnail h-100 bg-img" style="background-image: url({% static 'img/bg-img/16.jpg' %});"></div>
 
                 <!-- Content -->
                 <div class="room-content">
@@ -359,7 +349,7 @@
             <!-- Single Room Slide -->
             <div class="single-room-slide d-flex align-items-center">
                 <!-- Thumbnail -->
-                <div class="room-thumbnail h-100 bg-img" style="background-image: url({% static 'img/bg-img/17.jpg' %}{% static ');"></div>
+                <div class="room-thumbnail h-100 bg-img" style="background-image: url({% static 'img/bg-img/17.jpg' %});"></div>
 
                 <!-- Content -->
                 <div class="room-content">
