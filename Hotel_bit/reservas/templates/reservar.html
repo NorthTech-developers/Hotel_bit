@@ -16,7 +16,7 @@
 {% block formulario %}
 <div class="container-fluid">
                 <div class="hotel-search-form">
-                    <form action="#" method="post">
+                    <form action="#" method="get">
                         <div class="row justify-content-between align-items-end">
                             <div class="col-6 col-md-2 col-lg-3">
                                 <label for="checkIn">Fecha Ingreso</label>
@@ -66,4 +66,21 @@
                     </form>
                 </div>
             </div>
+            {% comment %} <h1> Habitaciones </h1>
+            <h2>
+
+           {% for habitacion in habitacion %}
+                <div>
+                    <p> {{ habitacion}}  Precio : {{ habitacion.precio }} x/noche</p>
+                    <p> Capacidad : {{ habitacion.capacidad }} </p>
+                </div>  
+            {% endfor %} {% endcomment %}
+
+            </h2>
 {% endblock formulario %}
+
+{% block texto %}
+
+
+hola
+{% endblock texto %}

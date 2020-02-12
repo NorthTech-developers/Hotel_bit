@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-   <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
     <!-- Favicon -->
     <link rel="icon" href="{% static '/img/core-img/favicon.png' %}">
 
@@ -45,9 +45,9 @@
                     <div class="col-6">
                         <div class="top-header-content">
                             <a href="#"><i class="icon_phone"></i> <span>(+598) 099-876-468</span></a>
-                            
+
                             <a href="#"><i class="icon_mail"></i>{% block nombre_usuario %}{% endblock nombre_usuario %}</a>
-                            
+
                         </div>
                     </div>
 
@@ -91,13 +91,14 @@
                             </div>
                             <!-- Nav Start -->
 
-                            
+
                             <div class="classynav">
                                 <ul id="nav">
                                     <li><a href="./index.html">Inicio</a></li>
                                     <li><a href="./room.html">Habitaciones</a></li>
                                     <li class="active"><a href="./about.html">Reservas</a></li>
-                                    {% comment %} <li><a href="#">Contacto</a>
+                                    {% comment %}
+                                    <li><a href="#">Contacto</a>
                                         <ul class="dropdown">
                                             <li><a href="./index.html">- Home</a></li>
                                             <li><a href="./room.html">- Rooms</a></li>
@@ -127,7 +128,7 @@
 
                                 <!-- Book Now -->
                                 <div class="book-now-btn ml-3 ml-lg-5">
-                                    <a href="#">Reservar <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="{% url 'editar_reserva' %}">Reservar <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                             <!-- Nav End -->
@@ -140,16 +141,16 @@
     <!-- Header Area End -->
 
     <!-- Welcome Area Start -->
-    {% block content %}
-        
-    {% endblock content %}
+    
+    {% block content %} {% endblock content %}
     <!-- Welcome Area End -->
 
     <!-- About Us Area Start -->
     <section class="roberto-about-area section-padding-100-0">
         <!-- Hotel Search Form Area -->
         <div class="hotel-search-form-area">
-            {% block formulario %} {% endblock formulario %}
+            {% block formulario %}          {% endblock formulario %}
+            
         </div>
 
         <div class="container mt-100">
@@ -157,35 +158,17 @@
                 <div class="col-12 col-lg-6">
                     <!-- Section Heading -->
                     <div class="section-heading wow fadeInUp" data-wow-delay="100ms">
-                        <h6>About Us</h6>
-                        <h2>Welcome to <br>Roberto Hotel Luxury</h2>
+                         {% block habitaciones %} {% endblock habitaciones %}
+                         
                     </div>
-                    <div class="about-us-content mb-100">
-                        <h5 class="wow fadeInUp" data-wow-delay="300ms">With over 340 hotels worldwide, NH Hotel Group offers a wide variety of hotels catering for a perfect stay no matter where your destination.</h5>
-                        <p class="wow fadeInUp" data-wow-delay="400ms">Manager: <span>Michen Taylor</span></p>
-                        <img src=" {% static 'img/core-img/signature.png' %} " alt="" class="wow fadeInUp" data-wow-delay="500ms">
-                    </div>
+                    {% block texto %}
+                    {% endblock texto %}
                 </div>
+{% block habitaciones_slide %}
+               
 
-                <div class="col-12 col-lg-6">
-                    <div class="about-us-thumbnail mb-100 wow fadeInUp" data-wow-delay="700ms">
-                        <div class="row no-gutters">
-                            <div class="col-6">
-                                <div class="single-thumb">
-                                    <img src="{% static 'img/bg-img/13.jpg'%}" alt="">
-                                </div>
-                                <div class="single-thumb">
-                                    <img src="{% static 'img/bg-img/14.jpg'%}" alt="">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="single-thumb">
-                                    <img src="{% static 'img/bg-img/15.jpg'%}" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    {% endblock habitaciones_slide %}
+               
             </div>
         </div>
     </section>
@@ -234,51 +217,11 @@
     <!-- Service Area End -->
 
     <!-- Our Room Area Start -->
-    <section class="roberto-rooms-area">
-        <div class="rooms-slides owl-carousel">
-            <!-- Single Room Slide -->
-            <div class="single-room-slide d-flex align-items-center">
-                <!-- Thumbnail -->
-                <div class="room-thumbnail h-100 bg-img" style="background-image: url({% static 'img/bg-img/16.jpg' %});"></div>
-
-                <!-- Content -->
-                <div class="room-content">
-                    <h2 data-animation="fadeInUp" data-delay="100ms">Premium King Room</h2>
-                    <h3 data-animation="fadeInUp" data-delay="300ms">400$ <span>/ Day</span></h3>
-                    <ul class="room-feature" data-animation="fadeInUp" data-delay="500ms">
-                        <li><span><i class="fa fa-check"></i> Size</span> <span>: 30 ft</span></li>
-                        <li><span><i class="fa fa-check"></i> Capacity</span> <span>: Max persion 5</span></li>
-                        <li><span><i class="fa fa-check"></i> Bed</span> <span>: King Beds</span></li>
-                        <li><span><i class="fa fa-check"></i> Services</span> <span>: Wifi, Television, Bathroom</span></li>
-                    </ul>
-                    <a href="#" class="btn roberto-btn mt-30" data-animation="fadeInUp" data-delay="700ms">View Details</a>
-                </div>
-            </div>
-
-            <!-- Single Room Slide -->
-            <div class="single-room-slide d-flex align-items-center">
-                <!-- Thumbnail -->
-                <div class="room-thumbnail h-100 bg-img" style="background-image: url( {% static 'img/bg-img/17.jpg' %});"></div>
-
-                <!-- Content -->
-                <div class="room-content">
-                    <h2 data-animation="fadeInUp" data-delay="100ms">Best King Room</h2>
-                    <h3 data-animation="fadeInUp" data-delay="300ms">125$ <span>/ Day</span></h3>
-                    <ul class="room-feature" data-animation="fadeInUp" data-delay="500ms">
-                        <li><span><i class="fa fa-check"></i> Size</span> <span>: 30 ft</span></li>
-                        <li><span><i class="fa fa-check"></i> Capacity</span> <span>: Max persion 5</span></li>
-                        <li><span><i class="fa fa-check"></i> Bed</span> <span>: King Beds</span></li>
-                        <li><span><i class="fa fa-check"></i> Services</span> <span>: Wifi, Television, Bathroom</span></li>
-                    </ul>
-                    <a href="#" class="btn roberto-btn mt-30" data-animation="fadeInUp" data-delay="700ms">View Details</a>
-                </div>
-            </div>
-        </div>
-    </section>
+    
     <!-- Our Room Area End -->
 
     <!-- Testimonials Area Start -->
-    <section class="roberto-testimonials-area section-padding-100-0">
+    {% comment %} <section class="roberto-testimonials-area section-padding-100-0">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-12 col-md-6">
@@ -314,7 +257,9 @@
 
                         <!-- Single Testimonial Slide -->
                         <div class="single-testimonial-slide">
-                            <h5>“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus delectus facilis molestias, error vitae praesentium quos eaque qui ea, tempore blanditiis sint reprehenderit, quaerat. Commodi ab architecto sit suscipit exercitationem!”</h5>
+                            <h5>“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus delectus facilis molestias, error vitae praesentium quos eaque qui ea, tempore blanditiis sint reprehenderit, quaerat. Commodi ab architecto sit suscipit
+                                exercitationem!”
+                            </h5>
                             <div class="rating-title">
                                 <div class="rating">
                                     <i class="icon_star"></i>
@@ -361,11 +306,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- Testimonials Area End -->
 
     <!-- Projects Area Start -->
-    <section class="roberto-project-area">
+    {% comment %} <section class="roberto-project-area">
         <!-- Projects Slide -->
         <div class="projects-slides owl-carousel">
             <!-- Single Project Slide -->
@@ -468,74 +413,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- Projects Area End -->
 
     <!-- Blog Area Start -->
-    <section class="roberto-blog-area section-padding-100-0">
-        <div class="container">
-            <div class="row">
-                <!-- Section Heading -->
-                <div class="col-12">
-                    <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">
-                        <h6>Our Blog</h6>
-                        <h2>Latest News &amp; Event</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <!-- Single Post Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="300ms">
-                        <a href="#" class="post-thumbnail"><img src="{% static 'img/bg-img/2.jpg' %}" alt=""></a>
-                        <!-- Post Meta -->
-                        <div class="post-meta">
-                            <a href="#" class="post-date">Jan 02, 2019</a>
-                            <a href="#" class="post-catagory">Event</a>
-                        </div>
-                        <!-- Post Title -->
-                        <a href="#" class="post-title">Learn How To Motivate Yourself</a>
-                        <p>How many free autoresponders have you tried? And how many emails did you get through using them?</p>
-                        <a href="index.html" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-
-                <!-- Single Post Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="500ms">
-                        <a href="#" class="post-thumbnail"><img src="{% static 'img/bg-img/3.jpg' %}" alt=""></a>
-                        <!-- Post Meta -->
-                        <div class="post-meta">
-                            <a href="#" class="post-date">Jan 02, 2019</a>
-                            <a href="#" class="post-catagory">Event</a>
-                        </div>
-                        <!-- Post Title -->
-                        <a href="#" class="post-title">What If Let You Run The Hubble</a>
-                        <p>My point here is that if you have no clue for the answers above you probably are not operating a followup.</p>
-                        <a href="index.html" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-
-                <!-- Single Post Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="700ms">
-                        <a href="#" class="post-thumbnail"><img src="{% static 'img/bg-img/4.jpg' %}" alt=""></a>
-                        <!-- Post Meta -->
-                        <div class="post-meta">
-                            <a href="#" class="post-date">Jan 02, 2019</a>
-                            <a href="#" class="post-catagory">Event</a>
-                        </div>
-                        <!-- Post Title -->
-                        <a href="#" class="post-title">Six Pack Abs The Big Picture</a>
-                        <p>Some good steps to take to ensure you are getting what you need out of a autoresponder include…</p>
-                        <a href="index.html" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
+      
     <!-- Blog Area End -->
 
     <!-- Call To Action Area Start -->
@@ -639,7 +521,7 @@
                     <div class="col-12 col-sm-8 col-lg-4">
                         <div class="single-footer-widget mb-80">
                             <!-- Widget Title -->
-                            <h5 class="widget-title">Subscribe Newsletter</h5>
+                            <h5 class="widget-title">Suscribirse a boletin</h5>
                             <span>Subscribe our newsletter gor get notification about new updates.</span>
 
                             <!-- Newsletter Form -->
@@ -660,9 +542,14 @@
                     <div class="col-12 col-md-8">
                         <!-- Copywrite Text -->
                         <div class="copywrite-text">
-                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
