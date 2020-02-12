@@ -13,3 +13,6 @@ def galeria(request):
 
 def sobre_nosotros(request):
     return render(request, 'about.html', {})
+
+def habitacion_vip(request):
+    return render(request, 'single-room.html', {})
