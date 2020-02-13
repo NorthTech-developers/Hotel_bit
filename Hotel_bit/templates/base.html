@@ -246,10 +246,9 @@
                             <span>Suscríbase a nuestro boletín de noticias para recibir notificaciones sobre nuevas actualizaciones.</span>
 
                             <!-- Newsletter Form -->
-                            <form action="#" method="POST" class="nl-form">
+                            <form action="#" method="post" class="nl-form">{% csrf_token %}
                                 <input type="email" name="email_newsletter" class="form-control" placeholder="Ingrese su E-mail...">
                                 <button type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                {% csrf_token %}
                             </form>
                         </div>
                     </div>
