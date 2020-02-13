@@ -141,7 +141,7 @@
     <!-- Header Area End -->
 
     <!-- Welcome Area Start -->
-    
+
     {% block content %} {% endblock content %}
     <!-- Welcome Area End -->
 
@@ -149,8 +149,8 @@
     <section class="roberto-about-area section-padding-100-0">
         <!-- Hotel Search Form Area -->
         <div class="hotel-search-form-area">
-            {% block formulario %}          {% endblock formulario %}
-            
+            <br><br><br> {% block formulario %} {% endblock formulario %}
+
         </div>
 
         <div class="container mt-100">
@@ -158,22 +158,18 @@
                 <div class="col-12 col-lg-6">
                     <!-- Section Heading -->
                     <div class="section-heading wow fadeInUp" data-wow-delay="100ms">
-                         {% block habitaciones %} {% endblock habitaciones %}
-                         
-                    </div>
-                    {% block texto %}
-                    {% endblock texto %}
-                </div>
-{% block habitaciones_slide %}
-               
+                        {% block habitaciones %} {% endblock habitaciones %}
 
-    {% endblock habitaciones_slide %}
-               
+                    </div>
+                    {% block texto %} {% endblock texto %}
+                </div>
+                {% block habitaciones_slide %} {% endblock habitaciones_slide %}
+
             </div>
         </div>
     </section>
     <!-- About Us Area End -->
-
+    <br><br><br>
     <!-- Service Area Start -->
     <div class="roberto-service-area">
         <div class="container">
@@ -217,11 +213,12 @@
     <!-- Service Area End -->
 
     <!-- Our Room Area Start -->
-    
+
     <!-- Our Room Area End -->
 
     <!-- Testimonials Area Start -->
-    {% comment %} <section class="roberto-testimonials-area section-padding-100-0">
+    {% comment %}
+    <section class="roberto-testimonials-area section-padding-100-0">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-12 col-md-6">
@@ -310,7 +307,8 @@
     <!-- Testimonials Area End -->
 
     <!-- Projects Area Start -->
-    {% comment %} <section class="roberto-project-area">
+    {% comment %}
+    <section class="roberto-project-area">
         <!-- Projects Slide -->
         <div class="projects-slides owl-carousel">
             <!-- Single Project Slide -->
@@ -417,7 +415,7 @@
     <!-- Projects Area End -->
 
     <!-- Blog Area Start -->
-      
+
     <!-- Blog Area End -->
 
     <!-- Call To Action Area Start -->

@@ -30,13 +30,9 @@
     </div>
 {% endblock content %}
 
-{% block formulario %}
-
-{% endblock formulario %}
-
 {% block habitaciones %}
             
-<h2> Verificar Habitaciones Disponibles </h2>
+<h2> Habitaciones Disponibles para ti</h2>
             
 {% endblock habitaciones %}
 
@@ -63,26 +59,11 @@
                             <div class="room-feature">
                                 <h6>Capacidad: <span>Max {{cuarto.capacidad}} personas</span></h6>
                                 <h6>Desayuno: <span>SI</span></h6>
-                                <h6>Services: <span>Wifi, television ...</span></h6>
+                                <h6>Servicios<span>Wifi, television ...</span></h6>               
+                                <h6>Días Reserva: <span>{{ dias_reserva }}</span></h6>
                             </div>
-                            <form action="#" method="get">
-                            <input type="text" hidden="true" value="{{ cuarto }}" name="nombre_habitacion">
-                            <input type="number" hidden="true" value="{{ cuarto.capacidad }}" name="numero_adultos">
-                            <div class="form-group mb-30">
-                                <label for="checkInDate">Fecha</label>
-                                <div class="input-daterange" id="datepicker">
-                                    <div class="row no-gutters">
-                                        <div class="col-6">
-                                            <input type="text" class="input-small form-control" id="checkInDate" name="fecha_ingreso" placeholder="Ingreso">
-                                        </div>
-                                        <div class="col-6">
-                                            <input type="text" class="input-small form-control" name="fecha_egreso" placeholder="Egreso">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button  type="submit" class="btn view-detail-btn">Reservar <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
-                            </form>
+                            <a href="#" class="btn roberto-btn mb-50" > Reservar </a>
+                           
                         </div>
                     </div>
                     

@@ -7,9 +7,9 @@ class ReservaHabitacion(forms.ModelForm):
         model = Habitacion
         fields = ('nombre', 'cantidad_habitaciones', 'precio', 'capacidad', 'disponible')
 
-class Crear_Reserva(forms.ModelForm):
 
-    
+
+class Crear_Reserva(forms.ModelForm):
 
     class Meta:
         model = Reserva_habitacion
