@@ -54,28 +54,28 @@
                         <form action="#" method="post">{% csrf_token %}
                             <div class="row section-padding-100">
                                 <div class="col-6 text-center wow fadeInUp " data-wow-delay="100ms">
-                                    <input type="text" name="first_name" class="form-control mb-30 text-center" placeholder="Nombre">
+                                    <input type="text" name="first_name" required class="form-control mb-30 text-center" placeholder="Nombre">
                                 </div>
                                 <div class="col-6 text-center wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="text" name="last_name" class="form-control mb-30 text-center" placeholder="Apellido">
+                                    <input type="text" name="last_name" required  class="form-control mb-30 text-center" placeholder="Apellido">
                                 </div>   
                                 <div class="col-6 text-center wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="text" name="email" class="form-control mb-30 text-center" placeholder="Email">
+                                    <input type="email" name="email" required  class="form-control mb-30 text-center" placeholder="Email">
                                 </div>  
                                 <div class="col-6 text-center wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="text" name="phone" class="form-control mb-30 text-center" placeholder="Telefono">
+                                    <input type="text" name="phone" required class="form-control mb-30 text-center" placeholder="Telefono">
                                 </div>       
                                 <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="text" name="user" class="form-control mb-30 text-center" placeholder="Nombre de usuario">
+                                    <input type="text" name="user" required class="form-control mb-30 text-center" placeholder="Nombre de usuario">
                                 </div> 
                                  <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="user" name="password1" class="form-control mb-30 text-center" placeholder="Contraseña">
+                                    <input type="password" name="password1" required class="form-control mb-30 text-center" placeholder="Contraseña">
                                 </div>           
                                  <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="user" name="password2" class="form-control mb-30 text-center" placeholder="Repetir contraseña">
+                                    <input type="password" name="password2" required class="form-control mb-30 text-center" placeholder="Repetir contraseña">
                                 </div>  
                                 <div class="col-12 wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="checkbox" name="terminos_condiciones" value="3"> He leído y acepto los <h7><a href="#">términos y condiciones</a></h7>
+                                    <input type="checkbox" name="terminos_condiciones" required value="3"> He leído y acepto los <h7><a href="#">términos y condiciones</a></h7>
                                 </div> 
                                 <p>
                                 <div class="col-12 wow fadeInUp" data-wow-delay="100ms">
