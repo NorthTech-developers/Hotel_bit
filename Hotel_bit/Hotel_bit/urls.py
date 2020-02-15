@@ -25,6 +25,7 @@ urlpatterns = [
     path('sobre_nosotros/', views.sobre_nosotros), #añadi las url sobre_nosotros
     path('habitacion_vip/', views.habitacion_vip), #añadi las url habitacion_vip
     path('login/', views.login), #añadi las url login
+    path('registro/', views.registro), #añadi las url login
     path('reservar/', include('reservas.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'reservas/'
     path('contacto/', include('contacto.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'contacto/'
 ]

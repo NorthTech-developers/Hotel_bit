@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Hotel b_IT - Login{% endblock %}
+
+
+{% block content %}
+    <!-- Breadcrumb Area Start -->
+    <div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url({% static 'img/bg-img/16.jpg' %});">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="breadcrumb-content text-center">
+                        <h2 class="page-title">Registrarse</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="../home">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Registro</li>
+                            </ol>
+                        </nav>
+                    </div>
+                   </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    
+     <!-- Contact Form Area Start -->
+    <div class="roberto-contact-form-area section-padding-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Section Heading -->
+                    <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">
+                        <br>
+                        <br>
+                        <h6>Registrse</h6>
+                        <h7>Complete los siguientes campos para registrarse</h7>
+                    </div>
+                </div>
+            </div>
+            
+
+            
+
+
+                    <!-- Registro -->
+                    <div class="breadcrumb justify-content-center section-padding-30">
+                        <form action="#" method="post">{% csrf_token %}
+                            <div class="row section-padding-100">
+                                <div class="col-6 text-center wow fadeInUp " data-wow-delay="100ms">
+                                    <input type="text" name="first_name" class="form-control mb-30 text-center" placeholder="Nombre">
+                                </div>
+                                <div class="col-6 text-center wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="text" name="last_name" class="form-control mb-30 text-center" placeholder="Apellido">
+                                </div>   
+                                <div class="col-6 text-center wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="text" name="email" class="form-control mb-30 text-center" placeholder="Email">
+                                </div>  
+                                <div class="col-6 text-center wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="text" name="phone" class="form-control mb-30 text-center" placeholder="Telefono">
+                                </div>       
+                                <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="text" name="user" class="form-control mb-30 text-center" placeholder="Nombre de usuario">
+                                </div> 
+                                 <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="user" name="password1" class="form-control mb-30 text-center" placeholder="Contraseña">
+                                </div>           
+                                 <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="user" name="password2" class="form-control mb-30 text-center" placeholder="Repetir contraseña">
+                                </div>  
+                                <div class="col-12 wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="checkbox" name="terminos_condiciones" value="3"> He leído y acepto los <h7><a href="#">términos y condiciones</a></h7>
+                                </div> 
+                                <p>
+                                <div class="col-12 wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="checkbox" name="newsletter" value="3"> Suscribirse al boletin de noticias</a></h7>
+                                </div>                 
+                                <div class="col-12 text-center wow fadeInUp section-left-margin-200" data-wow-delay="100ms">
+                                    <button type="submit" class="btn roberto-btn mt-15">Registar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
+    
+    
+    <!-- Breadcrumb Area End -->
+   
+
+                      
+{% endblock %}
