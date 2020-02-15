@@ -17,6 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 urlpatterns = [
+
+    # login y registro
+    path('', views.welcome),
+    path('register', views.register),
+    path('login', views.login),
+    path('logout', views.logout),
+
     path('admin/', admin.site.urls),
     path('', views.home), #añadi las url home de inicio
     path('home/', views.home), #añadi las url home
