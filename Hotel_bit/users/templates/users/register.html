@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="es">
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Registrar usuario</title>
-  </head>
-  <body>
-  <h2>Registrar usuario</h2>
+</head>
 
-  <form method="POST">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <button type="submit">Registrar</button>
-  </form>
+<body>
+    <h2>Registrar usuario</h2>
 
-  <hr />
+    <form method="POST">
+        {{ form.as_p }} {% csrf_token %}
+        <button type="submit">Registrar</button>
+    </form>
 
-  <a href="/login">Iniciar sesión</a>
-  </body>
+    <hr />
+
+    <a href="/login">Iniciar sesión</a>
+</body>
+
 </html>
