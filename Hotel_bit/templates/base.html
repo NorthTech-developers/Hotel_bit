@@ -12,7 +12,7 @@
     <title>{% block title %}{% endblock title %}</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="{% static './img/core-img/favicon.png' %}">
+    <link rel="icon" href="{% static './img/core-img/favicon.ico' %}">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -48,12 +48,19 @@
                             <a href="#"><i class="icon_phone"></i> <span>(+598) 099 999 999</span></a>
                             <a href="mailto:contacto@hotelbit.com.uy"><i class="icon_mail"></i> <span>contacto@hotelbit.com.uy</span></a>
                             <a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i> 
-                            
-                            {% if user.is_autenticate %}
-                                <span>hola {{ user.username }}</span>
-                            {% else %}
-                                <span>No has iniciado sesión</span>
-                            {% endif %}
+
+                                {% if request.user.username %}
+                                
+                                
+                                    <span>hola {{ request.user.username }}</span>
+
+                                {% else %}
+                                    <span>No has iniciado Sesion</span>
+
+            
+                                {% endif %}
+                               
+                          
                             
                             </a>
                            
@@ -124,7 +131,11 @@
 
                                 <!-- Book Now -->
                                 <div class="book-now-btn ml-3 ml-lg-5">
-                                    <a href="{% url 'login' %}">Login <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                    {% if request.user.username %}
+                                        <a href="{% url 'logout' %}">Cerrar Sesion <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                    {% else %}
+                                        <a href="{% url 'login' %}">Login <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                    {% endif %}                                
                                 </div>
                             </div>
                             <!-- Nav End -->

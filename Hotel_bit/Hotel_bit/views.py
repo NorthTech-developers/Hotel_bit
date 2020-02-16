@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout as do_logout
 
 # Create your views here.
 
@@ -22,4 +23,9 @@ def login(request):
 
 def registro(request):
     return render(request, 'registro.html', {})
+
+def logout(request):
+    do_logout(request)
+    return redirect('/')
+
 

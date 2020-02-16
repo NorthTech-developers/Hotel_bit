@@ -22,7 +22,7 @@ urlpatterns = [
     # path('', views.welcome),
     # path('register', views.register),
     # path('login', views.login),
-    # path('logout', views.logout),
+    path('logout', views.logout),
     
     # cambie los Path de login y registro por el include de abajo 
     path('', views.home), #añadi las url home de inicio
