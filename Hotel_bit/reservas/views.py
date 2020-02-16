@@ -32,6 +32,8 @@ def editar_reserva(request):
         fecha_ingreso = datetime.strptime(fecha_ingreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
         
         dias_reserva = fecha_egreso - fecha_ingreso
+    else:
+        dias_reserva = "Completar Formulario"
 
        
     return render(request, 'editar_reserva.html', {'habitacion':habitacion, 'dias_reserva': dias_reserva})

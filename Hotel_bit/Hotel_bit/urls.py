@@ -19,13 +19,16 @@ from . import views
 urlpatterns = [
 
     # login y registro
-    path('', views.welcome),
-    path('register', views.register),
-    path('login', views.login),
-    path('logout', views.logout),
+    # path('', views.welcome),
+    # path('register', views.register),
+    # path('login', views.login),
+    # path('logout', views.logout),
+    
+    # cambie los Path de login y registro por el include de abajo 
+    path('', views.home), #añadi las url home de inicio
+    
 
     path('admin/', admin.site.urls),
-    path('', views.home), #añadi las url home de inicio
     path('home/', views.home), #añadi las url home
     path('habitaciones/', views.habitaciones), #añadi las url habitaciones
     path('galeria/', views.galeria), #añadi las url galeria
@@ -35,4 +38,5 @@ urlpatterns = [
     path('registro/', views.registro), #añadi las url login
     path('reservar/', include('reservas.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'reservas/'
     path('contacto/', include('contacto.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'contacto/'
+    path('usuario/', include('users.urls')),
 ]
