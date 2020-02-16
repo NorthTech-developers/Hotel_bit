@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{%block title%} Hotel BIT | Editar Reserva{% endblock title%}
+
+{% block nombre_usuario %}
+    {% if user.is_autenticate %}
+        <span>hola username</span>
+    {% else %}
+        <span>No has iniciado sesión</span>
+    {% endif %}
+{% endblock nombre_usuario %}
+
+{% block content %}
+<div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url(../static/img/bg-img/16.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="breadcrumb-content text-center">
+                        <h2 class="page-title">Reserva tu Habitacion</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Habitaciones</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block habitaciones %}
+            
+<h2> Habitaciones Disponibles para ti</h2>
+            
+{% endblock habitaciones %}
+
+{% block habitaciones_slide %}
+
+    
+    <div class="roberto-rooms-area section-padding-100-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-12">
+                    <!-- Single Room Area -->
+                    
+            {% for cuarto in habitacion  %}
+
+         <div class="single-room-area d-flex align-items-center mb-50 wow fadeInUp" data-wow-delay="300ms">
+                        <!-- Room Thumbnail -->
+                        <div class="room-thumbnail">
+                            <img src="../static/img/bg-img/{{cuarto}}.jpg" alt="">
+                        </div>
+                        <!-- Room Content -->
+                        <div class="room-content">
+                            <h2>{{ cuarto }}</h2>
+                            <h4>{{ cuarto.precio}} <span>/ Dia</span></h4>
+                            <div class="room-feature">
+                                <h6>Capacidad: <span>Max {{cuarto.capacidad}} personas</span></h6>
+                                <h6>Desayuno: <span>SI</span></h6>
+                                <h6>Servicios<span>Wifi, television ...</span></h6>               
+                                <h6>Días Reserva: <span>{{ dias_reserva }}</span></h6>
+                            </div>
+                            <a href="#" class="btn roberto-btn mb-50" > Reservar </a>
+                           
+                        </div>
+                    </div>
+                    
+                {% endfor %}
+            
+</div>
+</div>  
+</div>
+
+    
+
+{% endblock habitaciones_slide %}
