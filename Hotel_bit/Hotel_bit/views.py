@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as do_logout
+from reservas.models import Habitacion
 
 # Create your views here.
 
@@ -7,7 +8,8 @@ def home(request):
     return render(request, 'index.html', {})
 
 def habitaciones(request):
-    return render(request, 'room.html', {})
+    habitacion = Habitacion.objects.all()
+    return render(request, 'room.html', {'habitacion': habitacion})
 
 def galeria(request):
     return render(request, 'galeria.html', {}) 

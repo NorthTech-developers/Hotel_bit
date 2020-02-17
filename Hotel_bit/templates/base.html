@@ -52,7 +52,7 @@
                                 {% if request.user.username %}
                                 
                                 
-                                    <span>hola {{ request.user.username }}</span>
+                                    <span>{{ request.user.username.upper }}</span>
 
                                 {% else %}
                                     <span>No has iniciado Sesion</span>
