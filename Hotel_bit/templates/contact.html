@@ -94,19 +94,19 @@
                         <form action="#" method="post">{% csrf_token %}
                             <div class="row">
                                 <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="text" name="first_name" class="form-control mb-30" placeholder="Nombre">
+                                    <input type="text" name="first_name" max_length=50 required class="form-control mb-30" placeholder="Nombre">
                                 </div>
                                 <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="text" name="last_name" class="form-control mb-30" placeholder="Apellido">
+                                    <input type="text" name="last_name" max_length=50 required class="form-control mb-30" placeholder="Apellido">
                                 </div>                                
                                 <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="text" name="phone" class="form-control mb-30" placeholder="Telefono">
+                                    <input type="text" name="phone" max_length=30 required class="form-control mb-30" placeholder="Telefono">
                                 </div>
                                   <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
-                                    <input type="email" name="email" class="form-control mb-30" placeholder="Email">
+                                    <input type="email" name="email" required class="form-control mb-30" placeholder="Email">
                                 </div>
                                 <div class="col-12 wow fadeInUp" data-wow-delay="100ms">
-                                    <textarea name="message" class="form-control mb-30" placeholder="Escriba su mensaje aqui..."></textarea>
+                                    <textarea name="message" required class="form-control mb-30" placeholder="Escriba su mensaje aqui..."></textarea>
                                 </div>
                                 <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
                                     <button type="submit" class="btn roberto-btn mt-15">Enviar</button>
