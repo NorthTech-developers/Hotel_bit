@@ -1,25 +1,130 @@
 from django.shortcuts import render
+from newsletters.forms import NewsletterForm
 
 # Create your views here.
 
 def home(request):
-    return render(request, 'index.html', {})
+    template = "index.html"
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
+
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
+
 
 def habitaciones(request):
-    return render(request, 'room.html', {})
+    template = "habitaciones.html"
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
+
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
+
 
 def galeria(request):
-    return render(request, 'galeria.html', {}) 
+    template = "galeria.html"
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
+
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
+
 
 def sobre_nosotros(request):
-    return render(request, 'about.html', {})
+    template = "about.html"
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
+
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
+
 
 def habitacion_vip(request):
-    return render(request, 'single-room.html', {})
+    template = "sigle-room.html"
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
+
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
+
 
 def login(request):
-    return render(request, 'login.html', {})
+    template = "login.html"
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
+
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
+
 
 def registro(request):
-    return render(request, 'registro.html', {})
+    template = "registro.html"
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
+
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
 
