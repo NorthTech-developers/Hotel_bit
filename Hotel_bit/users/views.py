@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login as do_login
 from django.contrib.auth import logout as do_logout
 from django.http import HttpResponse
+from .forms import RegisterForm
 
 
 def welcome(request):
@@ -14,23 +15,22 @@ def welcome(request):
     return redirect('/login')
 
 
-def register(request):
-    form = UserCreationForm()
+def registro(request):
+    template = "registro.html"
+
     if request.method == "POST":
-        form = UserCreationForm(data=request.POST)
+        form = RegisterForm(request.POST)
+
         if form.is_valid():
+            form.save()
+    
+    else:
+        form = RegisterForm
 
-            user = form.save()
-
-            if user is not None:
-                do_login(request, user)
-                return redirect('/')
-
-    form.fields['username'].help_text = None
-    form.fields['password1'].help_text = None
-    form.fields['password2'].help_text = None
-
-    return render(request, "users/register.html", {'form': form})
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
 
 
 def login(request):
