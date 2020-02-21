@@ -11,7 +11,7 @@ def welcome(request):
     if request.user.is_authenticated:
         return redirect('')
     # vuelve al login en cualquier otro caso
-    return redirect('/login')
+    return redirect('/usuario/login')
 
 
 def register(request):

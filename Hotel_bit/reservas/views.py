@@ -4,15 +4,33 @@ from .forms import ReservaHabitacion, Crear_Reserva
 from .models import Habitacion, Reserva_habitacion
 from datetime import date, datetime
 from _datetime import timedelta
+from newsletters.forms import NewsletterForm
 
 
 # Create your views here.
 
 def reservar(request):
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
     
     return render(request, 'reservar.html', {})
 
 def editar_reserva(request): 
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
 
     a = datetime.now()
     hoy = int(a.strftime('%d%m%Y'))

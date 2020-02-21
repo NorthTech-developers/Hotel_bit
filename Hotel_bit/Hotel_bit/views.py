@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.contrib.auth import logout as do_logout
 from newsletters.forms import NewsletterForm
 
 # Create your views here.
@@ -22,7 +23,7 @@ def home(request):
 
 
 def habitaciones(request):
-    template = "habitaciones.html"
+    template = "room.html"
 
     if request.method == "POST":
         form = NewsletterForm(request.POST)
@@ -128,3 +129,23 @@ def registro(request):
     }
     return render (request, template, context)
 
+def registro(request):
+    template = "base.html"
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
+
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
+
+    def logout(request):
+        do_logout(request)
+        return redirect('/')
