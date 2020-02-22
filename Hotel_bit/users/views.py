@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login as do_login
 from django.contrib.auth import logout as do_logout
 from django.http import HttpResponse
+from .forms import RegisterForm, Autenticacion
 
 
 def welcome(request):
@@ -14,40 +15,54 @@ def welcome(request):
     return redirect('/login')
 
 
-def register(request):
-    form = UserCreationForm()
-    if request.method == "POST":
-        form = UserCreationForm(data=request.POST)
-        if form.is_valid():
+def registro(request):
+    template = "registro.html"
 
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
             user = form.save()
 
             if user is not None:
                 do_login(request, user)
                 return redirect('/')
+    
+    else:
+        form = RegisterForm
 
-    form.fields['username'].help_text = None
-    form.fields['password1'].help_text = None
-    form.fields['password2'].help_text = None
-
-    return render(request, "users/register.html", {'form': form})
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
 
 
 def login(request):
-    form = AuthenticationForm()
-    if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
 
-            user = authenticate(username=username, password=password)
-            
-            if user is not None:
-                do_login(request, user)
-                return redirect('/')
+	context = {}
 
-    return render(request, "users/login.html", {'form': form})
+	user = request.user
+	if user.is_authenticated: 
+		return redirect("home")
+
+	if request.POST:
+		form = Autenticacion(request.POST)
+		if form.is_valid():
+			username = request.POST['username']
+			password = request.POST['password']
+			user = authenticate(username=username, password=password)
+
+			if user:
+				do_login(request, user)
+				return redirect("home")
+
+	else:
+		form = Autenticacion()
+
+	context['login_form'] = form
+
+	# print(form)
+	return render(request, "users/login.html", context)
 
 
 def logout(request):

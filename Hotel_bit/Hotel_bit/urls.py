@@ -40,6 +40,6 @@ urlpatterns = [
     path('usuario/', include('users.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'reservas/'
     path('reservar/', include('reservas.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'users/'
     path('contacto/', include('contacto.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'contacto/'
-   
+    path('registro/',views.registro),
     
 ]

@@ -1,24 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Iniciar sesión</title>
-</head>
 
-<body>
-    <h2>Iniciar sesión</h2>
+{% block title %}Hotel b_IT - Login{% endblock %}
 
-    <form method="POST">
-        {{ form.as_p }} {% csrf_token %}
-        <button type="submit">Login</button>
-    </form>
 
-    <hr />
+{% block content %}
+    <!-- Breadcrumb Area Start -->
+    <div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url({% static 'img/bg-img/16.jpg' %});">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="breadcrumb-content text-center">
+                        <h2 class="page-title">Login</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="../home">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Login</li>
+                            </ol>
+                        </nav>
+                    </div>
+                   </div>
+            </div>
+        </div>
+    </div>
 
-    <a href="/usuario/register">Registrar usuario</a>
-</body>
 
-</html>
+
+
+
+    
+     <!-- Contact Form Area Start -->
+    <div class="roberto-contact-form-area section-padding-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Section Heading -->
+                    <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">
+                        <br>
+                        <br>
+                        <h6>Login</h6>
+                        <h5>Ingrese su usuario & contraseña</h5>
+                        <h7><a href="../registro">Si no tiene cuenta, haga click aqui para registrarse</a></h7>
+                    </div>
+                </div>
+            </div>
+            
+
+            
+
+
+                    <!-- Form -->
+                    <div class="breadcrumb justify-content-center section-padding-30">
+                        <form action="#" method="post">{% csrf_token %}
+                            <div class="row section-padding-100">
+                                <div class="col-12 text-center wow fadeInUp " data-wow-delay="100ms">
+                                    <input type="text" name="username" class="form-control mb-30 text-center" placeholder="Usuario">
+                                </div>
+                                <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="password" name="password" class="form-control mb-30 text-center" placeholder="Contraseña">
+                                </div>                                
+                                <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
+                                    <button type="submit" class="btn roberto-btn mt-15">Login</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
+    
+    
+    <!-- Breadcrumb Area End -->
+   
+
+                      
+{% endblock %}
