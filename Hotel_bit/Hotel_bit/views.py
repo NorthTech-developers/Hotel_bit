@@ -22,7 +22,7 @@ def home(request):
 
 
 def habitaciones(request):
-    template = "habitaciones.html"
+    template = "room.html"
 
     if request.method == "POST":
         form = NewsletterForm(request.POST)
