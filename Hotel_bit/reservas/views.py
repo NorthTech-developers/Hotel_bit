@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from .forms import ReservaHabitacion, Crear_Reserva
-from .models import Habitacion, Reserva_habitacion
+from .models import Habitacion, Reserva_habitacion, Habitaciones
 from datetime import date, datetime
 from _datetime import timedelta
 
@@ -16,13 +16,13 @@ def editar_reserva(request):
 
     a = datetime.now()
     hoy = int(a.strftime('%d%m%Y'))
-    habitacion = Habitacion.objects.all()
+    habitacion = Habitaciones.objects.all()
     reserva = Reserva_habitacion.objects.all()
 
     if request.POST.get('Numero_Personas'):
         numero_personas = int(request.POST.get('Numero_Personas'))
-        habitacion = habitacion.filter(capacidad__gt=numero_personas).filter(cantidad_habitaciones__gt=0)
-
+        habitacion = habitacion.filter(capacidad__gt=numero_personas)
+        
         fecha_egreso_sucia = request.POST.get('Fecha_egreso')
         fecha_egreso_limpia = str(fecha_egreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un str de numeros
         fecha_egreso = datetime.strptime(fecha_egreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
@@ -36,5 +36,5 @@ def editar_reserva(request):
         dias_reserva = "Completar Formulario"
 
        
-    return render(request, 'editar_reserva.html', {'habitacion':habitacion, 'dias_reserva': dias_reserva})
+    return render(request, 'editar_reserva.html', {'habitacion':habitacion, 'dias_reserva': dias_reserva, 'fecha_ingreso': fecha_ingreso, 'fecha_egreso': fecha_egreso })
 

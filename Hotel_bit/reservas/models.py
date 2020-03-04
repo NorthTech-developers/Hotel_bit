@@ -28,19 +28,6 @@ precio_alojamiento = (
 	(100, 100)
 )
 
-class Hotel(models.Model):
-	nombre = models.CharField(max_length=50)
-	ubicacion = models.CharField(max_length=50)
-	ciudad = models.CharField(max_length=50)
-	estrellas = models.IntegerField(default=0)
-	image = models.ImageField(upload_to='hotel/')
-
-	def __str__(self):
-		return self.nombre
-
-	class Meta:
-		verbose_name = 'Hotel'
-		verbose_name_plural = 'Hoteles'
 
 class Tipo_pension(models.Model):
 	tipo_pension = models.CharField(choices=pension, max_length=50)
@@ -55,8 +42,7 @@ class Tipo_pension(models.Model):
 class Precio_pension(models.Model):
 	precio = models.DecimalField(choices=precio_pension, max_digits=5, decimal_places=2)
 	precio_tipo_pension = models.ForeignKey('Tipo_pension', on_delete=models.CASCADE)
-	hotel_tipo_pension = models.ForeignKey('Hotel', on_delete=models.CASCADE)
-
+	
 	def __str__(self):
 		return str(self.precio_tipo_pension)
 
@@ -71,8 +57,8 @@ class Habitaciones(models.Model):
 	baños = models.IntegerField(default=0)
 	garaje = models.IntegerField(default=0)
 	camas = models.IntegerField(default=0)
-	habitacion_hotel = models.ForeignKey('Hotel', on_delete=models.CASCADE)
-
+	capacidad = models.IntegerField(default=1)
+	
 	def __str__(self):
 		return self.descripcion
 

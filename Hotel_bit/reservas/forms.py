@@ -1,6 +1,6 @@
 from django import forms
 from .models import Habitacion, Reserva_habitacion
-from .models import Hotel, Habitaciones, Reserva, Tipo_alojamiento, Tipo_pension, Precio_pension, Reservas_habitacion
+from .models import Habitaciones, Reserva, Tipo_alojamiento, Tipo_pension, Precio_pension, Reservas_habitacion
 
 class ReservaForm(forms.ModelForm):
 	class Meta:
