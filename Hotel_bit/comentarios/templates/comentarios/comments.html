@@ -1,12 +1,6 @@
-<html>
-    <head>
-        <title>Hotel BIT Comentarios</title>
-    </head>
-    <body>
-        <div>
-            <h1><a href="comentarios/">Comentarios</a></h1>
-        </div>
+{% extends 'comentarios/base.html' %}
 
+{% block content %}
         {% for comentarios in reviews %}
             <div>
                 <p> publicado: {{ comentarios.fecha_publicacion }}</p>
@@ -14,5 +8,4 @@
                 <p>{{ comentarios.texto|linebreaksbr }}</p>
             </div>
         {% endfor %}
-    </body>
-</html>
+{% endblock %}
