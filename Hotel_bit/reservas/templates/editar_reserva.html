@@ -3,7 +3,7 @@
 {%block title%} Hotel BIT | Editar Reserva{% endblock title%}
 
 {% block nombre_usuario %}
-    {% if user.is_autenticate %}
+    {% if user.is_authenticate %}
         <span>hola username</span>
     {% else %}
         <span>No has iniciado sesión</span>

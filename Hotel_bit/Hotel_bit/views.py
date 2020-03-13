@@ -22,7 +22,7 @@ def home(request):
 
 
 def habitaciones(request):
-    template = "habitaciones.html"
+    template = "room.html"
 
     if request.method == "POST":
         form = NewsletterForm(request.POST)
@@ -76,7 +76,7 @@ def sobre_nosotros(request):
 
 
 def habitacion_vip(request):
-    template = "sigle-room.html"
+    template = "single-room.html"
 
     if request.method == "POST":
         form = NewsletterForm(request.POST)
