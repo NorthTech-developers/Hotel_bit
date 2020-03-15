@@ -83,7 +83,7 @@ class Reserva(models.Model):
 	fecha_reserva = models.DateField(default=datetime.date.today)
 
 	def __str__(self):
-		return str(self.fecha_reserva)
+		return str(self.reserva)
 
 	class Meta:
 		verbose_name = 'Reserva'
@@ -108,6 +108,8 @@ class Reservas_habitacion(models.Model):
 	ocupantes = models.IntegerField(default=0)
 	reserva_habitacion = models.ForeignKey('Habitaciones', on_delete=models.CASCADE)
 	reserva_reserva = models.ForeignKey('Reserva', on_delete=models.CASCADE)
+	precio_total = models.IntegerField('precio_total', default=0)
+	identificador = models.IntegerField('identificador', blank=False, null=False, default=12341234)
 
 	def __str__(self):
 		return str(self.reserva_habitacion)
