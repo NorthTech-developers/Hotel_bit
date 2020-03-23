@@ -25,11 +25,11 @@
 {% endblock habitaciones %} {% block habitaciones_slide %}
 
 
-               
 
-               
-                 
-                <section class="roberto-blog-area section-padding-100-0">
+
+
+
+<section class="roberto-blog-area section-padding-100-0">
     <div class="container">
         <div class="row">
             <!-- Section Heading -->
@@ -46,7 +46,7 @@
             {% for res in reserva %}
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="300ms">
-                    <a href="{% url 'mercado_pago' %}" class="post-thumbnail"><img src="{% static 'img/bg-img/mercadopago.jpg' %}" alt=""></a>
+                    <a href="http://hotelbit.byethost31.com/hotel/mercado_pago.php?nombre={{res}}&precio={{res.precio_total}}&usuario={{res.reserva_reserva}}&id={{res.identificador}}" class="post-thumbnail"><img src="{% static 'img/bg-img/mercadopago.jpg' %}" alt=""></a>
                     <!-- Post Meta -->
                     <div class="post-meta">
                         <a href="#" class="post-date">{{res.fecha_entrada}}</a>
@@ -74,10 +74,10 @@
                     <!-- Post Title -->
                     <a href="#" class="post-title">Pago en Efectivo</a>
                     <p>Mmi punto aquí es que si no tienes idea de las respuestas anteriores, probablemente no estés haciendo un seguimiento.</p>
-                    <a href="index.html" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                    <a href="#" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
                 </div>
             </div>
-            
+
             <!-- Single Post Area -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="700ms">
@@ -90,10 +90,10 @@
                     <!-- Post Title -->
                     <a href="#" class="post-title">{{res}}</a>
                     <li>
-                    <ul>USUARIO {{res.reserva_reserva}}</ul>
-                    <ul>Ocupantes {{res.ocupantes}}</ul>
-                    <ul>Precio Total {{res.precio_total}} </ul>
-                    <ul> Dias {{dias}} </ul>
+                        <ul>USUARIO {{res.reserva_reserva}}</ul>
+                        <ul>Ocupantes {{res.ocupantes}}</ul>
+                        <ul>Precio Total {{res.precio_total}} </ul>
+                        <ul> Dias {{dias}} </ul>
                     </li>
                     <a href="index.html" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
                 </div>
@@ -105,6 +105,6 @@
     </div>
 </section>
 
-        
 
-    {% endblock habitaciones_slide %}
+
+{% endblock habitaciones_slide %}

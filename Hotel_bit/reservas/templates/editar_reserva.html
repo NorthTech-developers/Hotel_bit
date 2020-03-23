@@ -50,7 +50,7 @@
                             <h6>Días Reserva: <span>{{ fecha_ingreso }}</span>{{ fecha_egreso }}</h6>
 
                         </div>
-                        <form action="{% url 'habitacion_detail' %}" method="post"> {% csrf_token %}
+                        <form action="{% url 'habitacion_detail'  %}" method="post"> {% csrf_token %}
                             <input type="text" name="usuario" value="{{request.user.username}}" hidden>
                             <input type="text" name="nombre_habitacion" value="{{cuarto}}" hidden/>
                             <input type="text" name="dias_reserva" value="{{dias_reserva}}" hidden/>

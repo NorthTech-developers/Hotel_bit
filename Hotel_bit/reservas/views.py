@@ -5,8 +5,26 @@ from .models import Habitacion, Reserva_habitacion, Habitaciones, Reserva
 from datetime import date, datetime, timedelta
 from _datetime import timedelta
 from .models import Reserva, Reservas_habitacion, Tipo_alojamiento
+import mercadopago
+import json
 
+mp = mercadopago.MP("8644071912236672", "8ybOL0xzx35BGErgFcZDpEcFDchqLGLd")
 
+def mercado(req, **kwargs):
+        preference = { 
+            "items": [
+                {
+                    "title": "Test",
+                    "quantity": 1,
+                    "currency_id": "USD",
+                    "unit_price": 10.4
+                }
+            ]
+        }
+
+        preferenceResult = mp.create_preference(preference)
+
+        return json.dumps(preferenceResult, indent=4)
 
 # Create your views here.
 
@@ -206,7 +224,7 @@ def confirmar_pago(request):
 
 def mercado_pago(request):
 
-    return render(request, 'mercado_pago.html', {})
+    return render(request, 'pago1.php', {})
 
 def pago_efectivo(request):
 
