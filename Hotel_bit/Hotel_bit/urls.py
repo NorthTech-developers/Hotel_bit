@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-
+from users.views import login, registro, logout, ver_perfil
 urlpatterns = [
 
     
@@ -36,10 +36,12 @@ urlpatterns = [
     path('galeria/', views.galeria), #añadi las url galeria
     path('sobre_nosotros/', views.sobre_nosotros), #añadi las url sobre_nosotros
     path('habitacion_vip/', views.habitacion_vip), #añadi las url habitacion_vip
-    path('login/', views.login), #añadi las url login
+    path('login/', login), #añadi las url login
     path('usuario/', include('users.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'reservas/'
     path('reservar/', include('reservas.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'users/'
     path('contacto/', include('contacto.urls')), #añadi las urls que tendrá el sistema de reservas en un path solo 'contacto/'
-   
+    path('registro/', registro),
+    path('perfil/', ver_perfil),
+    path('logout/', logout),
     
 ]

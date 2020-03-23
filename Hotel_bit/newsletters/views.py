@@ -1,10 +1,7 @@
-from django.shortcuts import render
 from .forms import NewsletterForm
-# Create your views here.
 
-def NewsletterUser(request):
-    template = "base.html"
 
+def Newsletter(request):    
     if request.method == "POST":
         form = NewsletterForm(request.POST)
 
@@ -14,7 +11,4 @@ def NewsletterUser(request):
     else:
         form = NewsletterForm
 
-    context = {
-    'form': form,
-    }
-    return render (request, template, context)
+
