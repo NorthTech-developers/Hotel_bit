@@ -20,6 +20,17 @@
 </head>
 
 <body>
+    <!-- Código de instalación Cliengo para https://plataformaegostudere.000webhostapp.com -->
+    <script type="text/javascript">
+        (function() {
+            var ldk = document.createElement('script');
+            ldk.type = 'text/javascript';
+            ldk.async = true;
+            ldk.src = 'https://s.cliengo.com/weboptimizer/5cfb0d68e4b003abf5067580/5cfb0d69e4b003abf5067583.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ldk, s);
+        })();
+    </script>
     <!-- Preloader -->
     <div id="preloader">
         <div class="loader"></div>
@@ -125,10 +136,8 @@
                                 <!-- Book Now -->
                                 <div class="book-now-btn ml-3 ml-lg-5">
                                     {% if request.user.username %}
-                                        <a href="{% url 'logout' %}">Cerrar Sesion <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                                    {% else %}
-                                        <a href="{% url 'login' %}">Login <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                                    {% endif %}
+                                    <a href="{% url 'logout' %}">Cerrar Sesion <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a> {% else %}
+                                    <a href="{% url 'login' %}">Login <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a> {% endif %}
                                 </div>
                             </div>
                             <!-- Nav End -->

@@ -1,0 +1,110 @@
+{% extends 'base.html' %} {%load static%} {%block title%} Hotel BIT | Editar Reserva{% endblock title%} {% block nombre_usuario %} {% if user.is_autenticate %}
+<span>hola username</span> {% else %}
+<span>No has iniciado sesión</span> {% endif %} {% endblock nombre_usuario %} {% block content %}
+<div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url(../static/img/bg-img/16.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcrumb-content text-center">
+                    <h2 class="page-title">Finalizar reserva</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Datos extras y pago</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %} {% block habitaciones %}
+
+<h2> Habitaciones Disponibles para ti</h2>
+
+{% endblock habitaciones %} {% block habitaciones_slide %}
+
+
+
+
+
+
+<section class="roberto-blog-area section-padding-100-0">
+    <div class="container">
+        <div class="row">
+            <!-- Section Heading -->
+            <div class="col-12">
+                <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">
+                    <h6>Medios de Pago</h6>
+                    <h2>Selecciona un medio de Pago</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Single Post Area -->
+            {% for res in reserva %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="300ms">
+                    <a href="http://hotelbit.byethost31.com/hotel/mercado_pago.php?nombre={{res}}&precio={{res.precio_total}}&usuario={{res.reserva_reserva}}&id={{res.identificador}}" class="post-thumbnail"><img src="{% static 'img/bg-img/mercadopago.jpg' %}" alt=""></a>
+                    <!-- Post Meta -->
+                    <div class="post-meta">
+                        <a href="#" class="post-date">{{res.fecha_entrada}}</a>
+                        <a href="#" class="post-date">{{res.fecha_salida}}</a>
+                        <a href="#" class="post-catagory">${{res.precio_total}}</a>
+                    </div>
+                    <!-- Post Title -->
+                    <a href="#" class="post-title">Mercado Pago 2020</a>
+                    <p>¿Cuántos autorespondedores gratuitos has probado? ¿Y cuántos correos electrónicos recibiste al usarlos?
+                    </p>
+                    <a href="index.html" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <!-- Single Post Area -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="500ms">
+                    <a href="#" class="post-thumbnail"><img src="{% static 'img/bg-img/pago.jpg' %}" alt=""></a>
+                    <!-- Post Meta -->
+                    <div class="post-meta">
+                        <a href="#" class="post-date">{{res.fecha_entrada}}</a>
+                        <a href="#" class="post-date">{{res.fecha_salida}}</a>
+                        <a href="#" class="post-catagory">${{res.precio_total}}</a>
+                    </div>
+                    <!-- Post Title -->
+                    <a href="#" class="post-title">Pago en Efectivo</a>
+                    <p>Mmi punto aquí es que si no tienes idea de las respuestas anteriores, probablemente no estés haciendo un seguimiento.</p>
+                    <a href="#" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <!-- Single Post Area -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="700ms">
+                    <a href="#" class="post-thumbnail"><img src="{% static 'img/bg-img/cancelar_reserva.jpg' %}" alt=""></a>
+                    <!-- Post Meta -->
+                    <div class="post-meta">
+                        <a href="#" class="post-date">Jun 02, 2019</a>
+                        <a href="#" class="post-catagory">Medio Seguro</a>
+                    </div>
+                    <!-- Post Title -->
+                    <a href="#" class="post-title">{{res}}</a>
+                    <li>
+                        <ul>USUARIO {{res.reserva_reserva}}</ul>
+                        <ul>Ocupantes {{res.ocupantes}}</ul>
+                        <ul>Precio Total {{res.precio_total}} </ul>
+                        <ul> Dias {{dias}} </ul>
+                    </li>
+                    <a href="index.html" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock habitaciones_slide %}
