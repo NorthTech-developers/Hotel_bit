@@ -12,7 +12,7 @@
     <title>{% block title %}{% endblock title %}</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="{% static './img/core-img/favicon.ico' %}">
+    <link rel="icon" href="{% static './img/core-img/favicon.png' %}">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -59,19 +59,20 @@
                             <a href="#"><i class="icon_phone"></i> <span>(+598) 099 999 999</span></a>
                             <a href="mailto:contacto@hotelbit.com.uy"><i class="icon_mail"></i> <span>contacto@hotelbit.com.uy</span></a>
                             <a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i> 
-
-                                {% if request.user.username %}
+                            
+                            {% if request.user.username %}
                                 
                                 
-                                    <span>{{ request.user.username.upper }}</span>
+                                <span>Bienvenido, {{ request.user.username.upper }}</span>
+                                
+                            {% else %}
+                                <span>No has iniciado Sesion</span>
 
-                                {% else %}
-                                    <span>No has iniciado Sesion</span>
-
-            
-                                {% endif %}
-                               
-                          
+        
+                            {% endif %}
+                                
+                                
+                            
                             
                             </a>
 
@@ -145,6 +146,8 @@
                                     {% if request.user.username %}
                                     <a href="{% url 'logout' %}">Cerrar Sesion <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a> {% else %}
                                     <a href="{% url 'login' %}">Login <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a> {% endif %}
+
+
                                 </div>
                             </div>
                             <!-- Nav End -->

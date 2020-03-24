@@ -1,33 +1,72 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth import logout as do_logout
-from reservas.models import Habitacion
+from django.shortcuts import render, redirect
+from newsletters.forms import NewsletterForm
+from newsletters.views import Newsletter
 
 # Create your views here.
 
 def home(request):
-    return render(request, 'index.html', {})
+    template = "index.html"
+    Newsletter(request)
+    return render (request, template, {'form': NewsletterForm,})
+
 
 def habitaciones(request):
-    habitacion = Habitacion.objects.all()
-    return render(request, 'room.html', {'habitacion': habitacion})
+    template = "room.html"
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
+
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
+
 
 def galeria(request):
-    return render(request, 'galeria.html', {}) 
+    template = "galeria.html"
+    Newsletter(request)
+    return render (request, template, {'form': NewsletterForm,})
+
 
 def sobre_nosotros(request):
-    return render(request, 'about.html', {})
+    template = "about.html"
+    Newsletter(request)
+    return render (request, template, {'form': NewsletterForm,})
+
 
 def habitacion_vip(request):
-    return render(request, 'single-room.html', {})
+    template = "single-room.html"
+    Newsletter(request)
+    return render (request, template, {'form': NewsletterForm,})
 
-def login(request):
-    return render(request, 'login.html', {})
+
+
 
 def registro(request):
-    return render(request, 'registro.html', {})
+    template = "base.html"
 
-def logout(request):
-    do_logout(request)
-    return redirect('/')
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
 
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = NewsletterForm
 
+    context = {
+    'form': form,
+    }
+    return render (request, template, context)
+
+    def logout(request):
+        do_logout(request)
+        return redirect('/')

@@ -1,55 +1,60 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login as do_login
 from django.contrib.auth import logout as do_logout
-from django.http import HttpResponse
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+from .models import Profile
+from .forms import CustomUserForm
+from .decorators import usuariologeado
 
-def welcome(request):
-    # para volver al inicio en caso de logeo correcto
-    if request.user.is_authenticated:
-        return redirect('')
-    # vuelve al login en cualquier otro caso
-    return redirect('/login')
-
-
-def register(request):
-    form = UserCreationForm()
-    if request.method == "POST":
-        form = UserCreationForm(data=request.POST)
+@usuariologeado
+def registro(request):
+    form = CustomUserForm()
+    if request.method == 'POST':
+        form = CustomUserForm(request.POST)
         if form.is_valid():
-
             user = form.save()
-
-            if user is not None:
-                do_login(request, user)
-                return redirect('/')
-
-    form.fields['username'].help_text = None
-    form.fields['password1'].help_text = None
-    form.fields['password2'].help_text = None
-
-    return render(request, "users/register.html", {'form': form})
+            #Los usuarios registrados quedan en el grupo usuariocomun
+            group = Group.objects.get(name='usuariocomun')
+            user.groups.add(group)
+            Profile.objects.create(
+                user=user
+            )
 
 
+
+
+            messages.success(request, 'Cuenta creada con exito')
+
+            return redirect('login')
+    context = {'form':form}
+    return render(request, 'registro.html', context)
+
+@usuariologeado
 def login(request):
-    form = AuthenticationForm()
-    if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-            user = authenticate(username=username, password=password)
-            
-            if user is not None:
-                do_login(request, user)
-                return redirect('/')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            do_login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request, 'Usuario y/o contrase;a incorrectos')
 
-    return render(request, "users/login.html", {'form': form})
+    context = {}
+    return render(request, "login.html", context)
 
 
 def logout(request):
     do_logout(request)
     return redirect('/')
+
+@login_required(login_url='login')
+def ver_perfil(request):
+    return render(request, 'perfil.html') 

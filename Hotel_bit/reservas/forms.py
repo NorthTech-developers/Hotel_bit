@@ -28,7 +28,7 @@ class PrecioPensionForm(forms.ModelForm):
 class ReservasHabitacionForm(forms.ModelForm):
 	class Meta:
 		model = Reservas_habitacion
-		fields = 'id', 'fecha_entrada', 'fecha_salida', 'ocupantes', 'reserva_habitacion', 'precio_total', 'identificador'
+		fields = 'id', 'fecha_entrada', 'fecha_salida', 'ocupantes', 'reserva_habitacion', 'precio_total', 'identificador', 'metodo_de_pago','status_payment'
 		widgets = {
             'fecha_entrada': forms.widgets.SelectDateWidget(years=range(2019, 2021)),
             'fecha_salida': forms.widgets.SelectDateWidget(years=range(2019, 2021)),

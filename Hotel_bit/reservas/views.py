@@ -28,11 +28,22 @@ def mercado(req, **kwargs):
 
 # Create your views here.
 
-def reservar(request):
+# def reservar(request):
+
+#     if request.method == "POST":
+#         form = NewsletterForm(request.POST)
+
+#         if form.is_valid():
+#             form.save()
     
-    return render(request, 'reservar.html', {})
+#     else:
+#         form = NewsletterForm
+    
+#     return render(request, 'reservar.html', {})
 
 def editar_reserva(request): 
+
+   
 
     a = datetime.now()
     hoy = int(a.strftime('%d%m%Y'))
@@ -170,20 +181,18 @@ def habitacion_detail(request):
 			# with smtplib.SMTP_SSL(smtp_server, port, context = context) as server:
 			# 	server.login(sender, password)
 			# 	server.sendmail(sender, reciever, message)
+
+			
 			#Guardamos la reserva de habitación en la base de datos
+
 			reserva_habitacion.save()
 
-			# pasamos info al otro taplate para procesar el pago
+			# pasamos info al otro template para procesar el pago
+
 			reserva_usuario = Reservas_habitacion.objects.all()
 			reserva_usuario = reserva_usuario.filter(identificador=identificador)
 			dias_reserva = fecha_salida - fecha_entrada
-
-
 			template= 'pago.html'
-
-
-
-
 			context = {
 
 				'id':identificador,
