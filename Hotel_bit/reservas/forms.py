@@ -10,6 +10,12 @@ class ReservaForm(forms.ModelForm):
             'fecha_reserva': forms.widgets.SelectDateWidget(years=range(2019, 2021))
         }
 
+class Actualizacion(forms.ModelForm):
+	class Meta:
+		model = Reservas_habitacion
+		fields = 'status_payment', 'metodo_de_pago'
+
+
 class TipoAlojamientoForm(forms.ModelForm):
 	class Meta:
 		model = Tipo_alojamiento
@@ -37,6 +43,12 @@ class ReservasHabitacionForm(forms.ModelForm):
 		fecha_salida = 'fecha_salida'
 		if fecha_entrada > fecha_salida:
 			raise forms.ValidationError("Fecha de salida debe ser mayor a la fecha de entrada")
+
+class Actualizar_Reserva_Habitacion (forms.ModelForm):
+	
+	class Meta:
+		model = Reservas_habitacion
+		fields = ('metodo_de_pago', 'status_payment')
 
 
 class ReservaHabitacion(forms.ModelForm):

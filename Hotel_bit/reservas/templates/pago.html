@@ -6,7 +6,13 @@
         <div class="row h-100 align-items-center">
             <div class="col-12">
                 <div class="breadcrumb-content text-center">
+
+
+                    {% if metodo %}
+                    <h2 class="page-title">Reserva Exitosa!</h2>
+                    {% else %}
                     <h2 class="page-title">Finalizar reserva</h2>
+                    {% endif %}
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
@@ -35,8 +41,23 @@
             <!-- Section Heading -->
             <div class="col-12">
                 <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">
+
+                    {% if metodo %}
+                    <h6>Su reserva a sido Guardada Exitosamente!</h6>
+                    <h2>Detalles:</h2>
+
+                    <li>Tipo de Pago: {{ metodo }}</li>
+                    <li>Estado Actual : {{ estado }}</li>
+                    <li>Número de Reserva : {{ id }}</li>
+
+                    <br>
+                    <br>
+                    <a href="../home/">Volver al Inicio</a> {% else %}
                     <h6>Medios de Pago</h6>
                     <h2>Selecciona un medio de Pago</h2>
+                    {% endif %}
+
+
                 </div>
             </div>
         </div>
@@ -72,9 +93,15 @@
                         <a href="#" class="post-catagory">${{res.precio_total}}</a>
                     </div>
                     <!-- Post Title -->
-                    <a href="#" class="post-title">Pago en Efectivo</a>
-                    <p>Mmi punto aquí es que si no tienes idea de las respuestas anteriores, probablemente no estés haciendo un seguimiento.</p>
-                    <a href="#" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                    <form action="{% url 'actualizacion' %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="metodo" value="Efectivo" hidden>
+                        <input type="number" name="id1" value="{{res.identificador}}" hidden>
+                        <input type="text" name="StatusPayment" value="Pendiente" hidden>
+                        <button action="submmit" class="post-title">Pago en Efectivo</button>
+                        <p>Mmi punto aquí es que si no tienes idea de las respuestas anteriores, probablemente no estés haciendo un seguimiento.</p>
+                        <a href="#" class="btn continue-btn"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                    </form>
                 </div>
             </div>
 

@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 import random
 from django.contrib.auth.models import User
+from .forms import ReservasHabitacionForm
 from .models import Habitacion, Reserva_habitacion, Habitaciones, Reserva
 from datetime import date, datetime, timedelta
 from _datetime import timedelta
@@ -231,10 +232,72 @@ def confirmar_pago(request):
     }
     return render(request,'pago.html', context)
 
+	#	aquí modificamos los atributos de la reserva para establecer si se cancelará
+	#	si sera pago en efectivo o por Mercado Pago
+
 def mercado_pago(request):
 
-    return render(request, 'pago1.php', {})
+	if request.method == 'GET':
 
-def pago_efectivo(request):
+		id1 = request.GET['id1']
+		metodo = 'Mercado Pago'
+		statusPayment = request.GET['StatusPayment']
 
-    return render(request, 'pago_efectivo.html', {})
+		reserva_actual = Reservas_habitacion.objects.get(identificador=id1)
+		# reserva_actual = reserva_actual1.get(identificador=id1)
+		actualizarForm = ReservasHabitacionForm(request.GET, instance=reserva_actual)
+
+		reserva_actual.metodo_de_pago = metodo
+		reserva_actual.status_payment = request.GET['StatusPayment']
+
+		
+
+		reserva_actual.save()
+		
+
+	template = 'pago.html'
+	context = {
+
+		'metodo' : metodo,
+		'id' : id1,
+		'estado' : statusPayment
+		
+	}
+
+	return render(request, template, context)
+
+
+
+
+
+def actualizacion(request):
+	
+	if request.method == 'POST':
+
+		id1 = request.POST['id1']
+		metodo = request.POST['metodo']
+		statusPayment = request.POST['StatusPayment']
+
+		reserva_actual = Reservas_habitacion.objects.get(identificador=id1)
+		# reserva_actual = reserva_actual1.get(identificador=id1)
+		actualizarForm = ReservasHabitacionForm(request.POST, instance=reserva_actual)
+
+		reserva_actual.metodo_de_pago = request.POST['metodo']
+		reserva_actual.status_payment = request.POST['StatusPayment']
+
+		
+
+		reserva_actual.save()
+		
+
+	template = 'pago.html'
+	context = {
+
+		'metodo' : metodo,
+		'id' : id1,
+		'estado' : statusPayment
+		
+	}
+
+	return render(request, template, context)
+
