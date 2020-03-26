@@ -10,9 +10,12 @@
 
                     {% if metodo %}
                     <h2 class="page-title">Reserva Exitosa!</h2>
+                    {% elif reserva_cancelada %}
+                    <h2 class="page-title">Cancelar Reserva</h2>
                     {% else %}
-                    <h2 class="page-title">Finalizar reserva</h2>
+                    <h2 class="page-title">Finalizar Reserva</h2>
                     {% endif %}
+
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
@@ -49,6 +52,22 @@
                     <li>Tipo de Pago: {{ metodo }}</li>
                     <li>Estado Actual : {{ estado }}</li>
                     <li>Número de Reserva : {{ id }}</li>
+
+                    <br>
+                    <br>
+                    <a href="../home/">Volver al Inicio</a> {% elif reserva_cancelada %}
+
+                    <h6>Su reserva a sido cancelada Exitosamente!</h6>
+                    <h2>Detalles:</h2>
+
+
+                    <li>Estado Actual : {{ reserva_cancelada.status_payment }}</li>
+                    <li>Número de Reserva : {{ reserva_cancelada.identificador }}</li>
+                    <li>Ocupantes : {{ reserva_cancelada.ocupantes }}</li>
+                    <li>Entrada : {{ reserva_cancelada.fecha_entrada }} </li>
+                    <li>Salida : {{ reserva_cancelada.fecha_salida }} </li>
+                    <li>Precio total : ${{ reserva_cancelada.precio_total }} </li>
+                    <li>Habitacion : {{ reserva_cancelada }} </li>
 
                     <br>
                     <br>
@@ -115,8 +134,15 @@
                         <a href="#" class="post-catagory">Medio Seguro</a>
                     </div>
                     <!-- Post Title -->
-                    <a href="#" class="post-title">{{res}}</a>
+                    <form action="{% url 'cancel_res' %}" method="post">{% csrf_token %}
+
+                        <input type="number" name="id_reserva" value="{{res.identificador}}" hidden>
+
+                        <button action="submit" class="post-title">Cancelar la reserva</button>
+
+                    </form>
                     <li>
+                        <ul>{{res}}</ul>
                         <ul>USUARIO {{res.reserva_reserva}}</ul>
                         <ul>Ocupantes {{res.ocupantes}}</ul>
                         <ul>Precio Total {{res.precio_total}} </ul>

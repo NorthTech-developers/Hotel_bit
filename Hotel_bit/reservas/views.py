@@ -212,25 +212,28 @@ def habitacion_detail(request):
 
 	return render(request, template, context)
 
+# cancelar la reserva
 
+def cancel_res(request):
 
+	if request.method == 'POST':
 
-def confirmar_pago(request):
+		id_reserva = request.POST['id_reserva']
 
-    
-    reserva = Reservas_habitacion.objects.all()
-    
-   
+		reserva_a_cancelar = Reservas_habitacion.objects.get(identificador=id_reserva)
+		actualizarForm = ReservasHabitacionForm(request.POST, instance=reserva_a_cancelar)
 
+		reserva_a_cancelar.status_payment = 'Cancelado'
+		reserva_a_cancelar.save()
 
-    context = {
+	template = 'pago.html'
+	context = {
 
-        'reserva' : reserva,
-        
-        
+		'reserva_cancelada' : reserva_a_cancelar
+	}
 
-    }
-    return render(request,'pago.html', context)
+	return render(request, template, context)
+
 
 	#	aquí modificamos los atributos de la reserva para establecer si se cancelará
 	#	si sera pago en efectivo o por Mercado Pago
