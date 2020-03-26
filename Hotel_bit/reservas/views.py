@@ -242,18 +242,16 @@ def mercado_pago(request):
 
 	if request.method == 'GET':
 
-		id1 = request.GET['id1']
+		id1 = request.GET['identificador']
 		metodo = 'Mercado Pago'
-		statusPayment = request.GET['StatusPayment']
+		statusPayment = request.GET['estado']
 
 		reserva_actual = Reservas_habitacion.objects.get(identificador=id1)
 		# reserva_actual = reserva_actual1.get(identificador=id1)
 		actualizarForm = ReservasHabitacionForm(request.GET, instance=reserva_actual)
 
 		reserva_actual.metodo_de_pago = metodo
-		reserva_actual.status_payment = request.GET['StatusPayment']
-
-		
+		reserva_actual.status_payment = statusPayment
 
 		reserva_actual.save()
 		
@@ -304,3 +302,31 @@ def actualizacion(request):
 
 	return render(request, template, context)
 
+
+def listar_reservas(request):
+	
+	usuario1 = request.user
+	reserva_nombre = Reserva.objects.filter(reserva=usuario1).first()
+	reservas1 = Reservas_habitacion.objects.all()
+	reservas = reservas1.filter(reserva_reserva = reserva_nombre)
+
+
+	template = 'listar_reservas.html'
+	context = {
+
+		'usuario' : usuario1,
+		'reservas' : reservas
+	}
+
+	return render(request, template, context)
+
+def eliminar_reserva(request):
+
+	if request.method == 'POST':
+
+		identificador = request.POST['identificador']
+		reserva_to_delete = Reservas_habitacion.objects.filter(identificador=identificador)
+
+		reserva_to_delete.delete()
+
+		return redirect('mis_reservas')

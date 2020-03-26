@@ -43,7 +43,7 @@
         <div class="search-form d-flex align-items-center">
             <div class="container">
                 <form action="index.html" method="get">
-                    <input type="search" name="search-form-input" id="searchFormInput" placeholder="Type your keyword ...">
+                    <input type="search" name="search-form-input" id="searchFormInput" placeholder="Ingresa tu Busqueda ...">
                     <button type="submit"><i class="icon_search"></i></button>
                 </form>
             </div>
@@ -83,9 +83,11 @@
                         <div class="top-header-content">
                             <!-- Top Social Area -->
                             <div class="top-social-area ml-auto">
+
+                                {% if request.user.username %}
+                                <a href=" {% url 'mis_reservas' %} ">Ver Mis Reservas</a> {% endif %}
                                 <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                                 <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-tripadvisor" aria-hidden="true"></i></a>
                                 <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                             </div>
                         </div>

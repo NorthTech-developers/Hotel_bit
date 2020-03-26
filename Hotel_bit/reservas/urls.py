@@ -9,6 +9,8 @@ urlpatterns = [
     path('mercado_pago', views.mercado_pago, name="mercado_pago"),
     path('actualizacion',views.actualizacion, name="actualizacion"),
     path('cancel_res', views.cancel_res, name="cancel_res"),
+    path('mis_reservas', views.listar_reservas, name="mis_reservas"),
+    path('eliminar_reserva', views.eliminar_reserva, name="eliminar_reserva"),
     
 
 ]
