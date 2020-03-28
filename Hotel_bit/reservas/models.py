@@ -99,7 +99,7 @@ class Reserva(models.Model):
 	fecha_reserva = models.DateField(default=datetime.date.today)
 
 	def __str__(self):
-		return str(self.reserva)
+		return str(self.fecha_reserva)
 
 	class Meta:
 		verbose_name = 'Reserva'
@@ -129,6 +129,7 @@ class Reservas_habitacion(models.Model):
 	identificador = models.IntegerField('identificador', blank=False, null=False, default=12341234)
 	metodo_de_pago = models.CharField(choices=tipo_de_pago, max_length=100,default='Pendiente')
 	status_payment = models.CharField(choices=status_payment, max_length=100, default='Pendiente')
+	usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 	def __str__(self):
 		return str(self.reserva_habitacion)

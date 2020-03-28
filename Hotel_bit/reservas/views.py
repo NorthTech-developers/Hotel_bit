@@ -8,6 +8,10 @@ from _datetime import timedelta
 from .models import Reserva, Reservas_habitacion, Tipo_alojamiento
 import mercadopago
 import json
+from asyncio.sslproto import ssl
+import smtplib
+
+
 
 mp = mercadopago.MP("8644071912236672", "8ybOL0xzx35BGErgFcZDpEcFDchqLGLd")
 
@@ -56,12 +60,12 @@ def editar_reserva(request):
         habitacion = habitacion.filter(capacidad__gt=numero_personas)
         
         fecha_egreso_sucia = request.POST.get('Fecha_egreso')
-        fecha_egreso_limpia = str(fecha_egreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un str de numeros
+        fecha_egreso_limpia = str(fecha_egreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
         fecha_egreso = datetime.strptime(fecha_egreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
         fecha_egreso = fecha_egreso.date()
 
         fecha_ingreso_sucia = request.POST.get('Fecha_ingreso')
-        fecha_ingreso_limpia = str(fecha_ingreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un str de numeros
+        fecha_ingreso_limpia = str(fecha_ingreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
         fecha_ingreso = datetime.strptime(fecha_ingreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
         fecha_ingreso = fecha_ingreso.date()
         
@@ -90,12 +94,12 @@ def habitacion_detail(request):
 	reserva = Reserva.objects.all()
 	reservas_habitacion = Reservas_habitacion.objects.all()
 	#Creamos la variable que hará que cargue dicho html
-	template = 'hotel/detail.html'
+	template = 'pago.html'
 
 	#Si la habitacion ya esta reservada aparecerá el siguiente html.	
-	for reserva in reservas_habitacion:
-		if habitacion_detail == reserva.reserva_habitacion:
-			template = 'hotel/detail2.html'
+	# for reserva in reservas_habitacion:
+	# 	if habitacion_detail == reserva.reserva_habitacion:
+	# 		template = 'hotel/detail2.html'
 
 	if request.method == 'POST':
 		#Aquí recogemos los campos del formulario de la reserva de habitacion y lo tratamos
@@ -131,7 +135,7 @@ def habitacion_detail(request):
 		dias = dia1 - dia2
 		identificador = random.randrange(100000)
 	
-		user = request.user
+		user1 = request.user
 		if fecha_entrada > fecha_salida:
 			context = {
 				'habitacion_detail': habitacion_detail, 
@@ -143,45 +147,51 @@ def habitacion_detail(request):
 				'habitacion_detail': habitacion_detail, 
 				'reservas_habitacion': reservas_habitacion,
 			}
-			reserva_reserva = Reserva(reserva=user, fecha_reserva=reserva)
+			reserva_reserva = Reserva(reserva=user1, fecha_reserva=reserva)
 			#Guardamos la reserva en la base de datos
 			reserva_reserva.save()
-			reserva_reserva = Reserva.objects.latest('fecha_reserva')
+			# reserva_reserva = Reserva.objects.latest('fecha_reserva')
 			reserva_habitacion = Reservas_habitacion(
+				usuario = user1,
 				fecha_entrada=fecha_entrada, 
 				fecha_salida=fecha_salida, 
 				ocupantes=ocupantes,
 				reserva_habitacion=habitacion,
 				reserva_reserva=reserva_reserva,
-				precio_total=(int(precio)*int(ocupantes)),
+				precio_total=(int(precio_total)*int(ocupantes)),
 				identificador = identificador)
-			# smtp_server = 'smtp.gmail.com'
-			# port = 465
+			# configuracion de servicio smtp para emails
 
-			# sender = 'daniferpro3@gmail.com'
-			# password = 'daniferpro2016'
+			smtp_server = 'smtp.gmail.com'
+			port = 465
 
-			# reciever = user.email
-			# message = """\
-			# 	Enhorabuena """ + user.username + """ por su reserva.
+			sender = 'daniferpro3@gmail.com'
+			password = 'daniferpro2016'
 
-			# 	""" + """
-			# 	Detalles de la reserva:
-			# 	Fecha de entrada: """ + str(fecha_entrada) + """
-			# 	Fecha de salida: """ + str(fecha_salida) + """
-			# 	Ocupantes: """ + str(ocupantes) + """
-			# 	Descripcion de la habitacion: """ + str(habitacion) + """
-			# 	Fecha de la reserva: """ + str(reserva_reserva) + """
-			# 	Precio: """ + str(precio) + """
+			reciever = user1.email
 
-			# 	Encantados de poder contar contigo.
-			# 	"""
+			message = """\
+				
+				Muchas Gracias """ + user1.username + """ por su reserva.
 
-			# context = ssl.create_default_context()
+				""" + """
+				Detalles de la reserva:
+				Fecha de entrada: """ + str(fecha_entrada) + """
+				Fecha de salida: """ + str(fecha_salida) + """
+				Ocupantes: """ + str(ocupantes) + """
+				Descripcion de la habitacion: """ + str(habitacion) + """
+				Fecha de la reserva: """ + str(reserva_reserva) + """
+				Precio: """ + str(precio) + """
+				Puede ver su reserva aqui-> http://127.0.0.1:8000/reservar/mis_reservas
 
-			# with smtplib.SMTP_SSL(smtp_server, port, context = context) as server:
-			# 	server.login(sender, password)
-			# 	server.sendmail(sender, reciever, message)
+				Encantados de poder contar contigo. Hotel BIT 2020
+				"""
+
+			context = ssl.create_default_context()
+
+			with smtplib.SMTP_SSL(smtp_server, port, context = context) as server:
+				server.login(sender, password)
+				server.sendmail(sender, reciever, message, )
 
 			
 			#Guardamos la reserva de habitación en la base de datos
@@ -250,8 +260,10 @@ def mercado_pago(request):
 		# reserva_actual = reserva_actual1.get(identificador=id1)
 		actualizarForm = ReservasHabitacionForm(request.GET, instance=reserva_actual)
 
+
 		reserva_actual.metodo_de_pago = metodo
 		reserva_actual.status_payment = statusPayment
+
 
 		reserva_actual.save()
 		
@@ -282,9 +294,12 @@ def actualizacion(request):
 		reserva_actual = Reservas_habitacion.objects.get(identificador=id1)
 		# reserva_actual = reserva_actual1.get(identificador=id1)
 		actualizarForm = ReservasHabitacionForm(request.POST, instance=reserva_actual)
+		
 
 		reserva_actual.metodo_de_pago = request.POST['metodo']
 		reserva_actual.status_payment = request.POST['StatusPayment']
+		
+		
 
 		
 
@@ -306,9 +321,8 @@ def actualizacion(request):
 def listar_reservas(request):
 	
 	usuario1 = request.user
-	reserva_nombre = Reserva.objects.filter(reserva=usuario1).first()
 	reservas1 = Reservas_habitacion.objects.all()
-	reservas = reservas1.filter(reserva_reserva = reserva_nombre)
+	reservas = (reservas1.filter(usuario=usuario1))
 
 
 	template = 'listar_reservas.html'
@@ -330,3 +344,4 @@ def eliminar_reserva(request):
 		reserva_to_delete.delete()
 
 		return redirect('mis_reservas')
+

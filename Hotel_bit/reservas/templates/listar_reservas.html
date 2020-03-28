@@ -32,6 +32,7 @@
                 <!-- Single Room Area -->
                 {% if not reservas %}
                 <h2>No tienes ningua Reserva Actualmente. ¡ Qué Esperas !</h2>
+
                 <br>
                 <a class="btn roberto-btn mb-50" href=" ../home ">¡ RESERVA YA !</a> {% endif %} {% for cuarto in reservas %}
 
@@ -47,9 +48,10 @@
                         <h4>{{ cuarto.identificador}} <span> N°reserva</span></h4>
                         <div class="room-feature">
                             <h6>Ocupantes: <span>Para {{cuarto.ocupantes}} personas</span></h6>
-                            <h6>Desayuno: <span>SI</span></h6>
+                            <h6>Reservado: <span>{{ cuarto.reserva_reserva.fecha_reserva }}</span></h6>
                             <h6>Tipo de Pago:<span> {{ cuarto.metodo_de_pago}} </span></h6>
                             <h6>Pago:<span>{{ cuarto.status_payment  }}</span></h6>
+                            <h6>Precio:<span>$ {{ cuarto.precio_total  }}</span></h6>
                             <h6>Días Reserva: <span>{{ cuarto.fecha_entrada }}</span>{{ cuarto.fecha_salida }}</h6>
 
                         </div>
