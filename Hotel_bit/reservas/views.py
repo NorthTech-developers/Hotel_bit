@@ -1,12 +1,17 @@
 from django.shortcuts import redirect, render
 import random
 from django.contrib.auth.models import User
+from .forms import ReservasHabitacionForm
 from .models import Habitacion, Reserva_habitacion, Habitaciones, Reserva
 from datetime import date, datetime, timedelta
 from _datetime import timedelta
 from .models import Reserva, Reservas_habitacion, Tipo_alojamiento
 import mercadopago
 import json
+from asyncio.sslproto import ssl
+import smtplib
+
+
 
 mp = mercadopago.MP("8644071912236672", "8ybOL0xzx35BGErgFcZDpEcFDchqLGLd")
 
@@ -26,19 +31,20 @@ def mercado(req, **kwargs):
 
         return json.dumps(preferenceResult, indent=4)
 
-# Create your views here.
+	# Create your views here.
 
-def reservar(request):
-    if request.method == "POST":
-        form = NewsletterForm(request.POST)
+	# def reservar(request):
 
-        if form.is_valid():
-            form.save()
-    
-    else:
-        form = NewsletterForm
-    
-    return render(request, 'reservar.html', {})
+	#     if request.method == "POST":
+	#         form = NewsletterForm(request.POST)
+
+	#         if form.is_valid():
+	#             form.save()
+		
+	#     else:
+	#         form = NewsletterForm
+		
+	#     return render(request, 'reservar.html', {})
 
 def editar_reserva(request): 
 
@@ -54,12 +60,12 @@ def editar_reserva(request):
         habitacion = habitacion.filter(capacidad__gt=numero_personas)
         
         fecha_egreso_sucia = request.POST.get('Fecha_egreso')
-        fecha_egreso_limpia = str(fecha_egreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un str de numeros
+        fecha_egreso_limpia = str(fecha_egreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
         fecha_egreso = datetime.strptime(fecha_egreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
         fecha_egreso = fecha_egreso.date()
 
         fecha_ingreso_sucia = request.POST.get('Fecha_ingreso')
-        fecha_ingreso_limpia = str(fecha_ingreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un str de numeros
+        fecha_ingreso_limpia = str(fecha_ingreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
         fecha_ingreso = datetime.strptime(fecha_ingreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
         fecha_ingreso = fecha_ingreso.date()
         
@@ -88,12 +94,12 @@ def habitacion_detail(request):
 	reserva = Reserva.objects.all()
 	reservas_habitacion = Reservas_habitacion.objects.all()
 	#Creamos la variable que hará que cargue dicho html
-	template = 'hotel/detail.html'
+	template = 'pago.html'
 
 	#Si la habitacion ya esta reservada aparecerá el siguiente html.	
-	for reserva in reservas_habitacion:
-		if habitacion_detail == reserva.reserva_habitacion:
-			template = 'hotel/detail2.html'
+	# for reserva in reservas_habitacion:
+	# 	if habitacion_detail == reserva.reserva_habitacion:
+	# 		template = 'hotel/detail2.html'
 
 	if request.method == 'POST':
 		#Aquí recogemos los campos del formulario de la reserva de habitacion y lo tratamos
@@ -129,7 +135,7 @@ def habitacion_detail(request):
 		dias = dia1 - dia2
 		identificador = random.randrange(100000)
 	
-		user = request.user
+		user1 = request.user
 		if fecha_entrada > fecha_salida:
 			context = {
 				'habitacion_detail': habitacion_detail, 
@@ -141,59 +147,63 @@ def habitacion_detail(request):
 				'habitacion_detail': habitacion_detail, 
 				'reservas_habitacion': reservas_habitacion,
 			}
-			reserva_reserva = Reserva(reserva=user, fecha_reserva=reserva)
+			reserva_reserva = Reserva(reserva=user1, fecha_reserva=reserva)
 			#Guardamos la reserva en la base de datos
 			reserva_reserva.save()
-			reserva_reserva = Reserva.objects.latest('fecha_reserva')
+			# reserva_reserva = Reserva.objects.latest('fecha_reserva')
 			reserva_habitacion = Reservas_habitacion(
+				usuario = user1,
 				fecha_entrada=fecha_entrada, 
 				fecha_salida=fecha_salida, 
 				ocupantes=ocupantes,
 				reserva_habitacion=habitacion,
 				reserva_reserva=reserva_reserva,
-				precio_total=(int(precio)*int(ocupantes)),
+				precio_total=(int(precio_total)*int(ocupantes)),
 				identificador = identificador)
-			# smtp_server = 'smtp.gmail.com'
-			# port = 465
+			# configuracion de servicio smtp para emails
 
-			# sender = 'daniferpro3@gmail.com'
-			# password = 'daniferpro2016'
+			smtp_server = 'smtp.gmail.com'
+			port = 465
 
-			# reciever = user.email
-			# message = """\
-			# 	Enhorabuena """ + user.username + """ por su reserva.
+			sender = 'daniferpro3@gmail.com'
+			password = 'daniferpro2016'
 
-			# 	""" + """
-			# 	Detalles de la reserva:
-			# 	Fecha de entrada: """ + str(fecha_entrada) + """
-			# 	Fecha de salida: """ + str(fecha_salida) + """
-			# 	Ocupantes: """ + str(ocupantes) + """
-			# 	Descripcion de la habitacion: """ + str(habitacion) + """
-			# 	Fecha de la reserva: """ + str(reserva_reserva) + """
-			# 	Precio: """ + str(precio) + """
+			reciever = user1.email
 
-			# 	Encantados de poder contar contigo.
-			# 	"""
+			message = """\
+				
+				Muchas Gracias """ + user1.username + """ por su reserva.
 
-			# context = ssl.create_default_context()
+				""" + """
+				Detalles de la reserva:
+				Fecha de entrada: """ + str(fecha_entrada) + """
+				Fecha de salida: """ + str(fecha_salida) + """
+				Ocupantes: """ + str(ocupantes) + """
+				Descripcion de la habitacion: """ + str(habitacion) + """
+				Fecha de la reserva: """ + str(reserva_reserva) + """
+				Precio: """ + str(precio) + """
+				Puede ver su reserva aqui-> http://127.0.0.1:8000/reservar/mis_reservas
 
-			# with smtplib.SMTP_SSL(smtp_server, port, context = context) as server:
-			# 	server.login(sender, password)
-			# 	server.sendmail(sender, reciever, message)
+				Encantados de poder contar contigo. Hotel BIT 2020
+				"""
+
+			context = ssl.create_default_context()
+
+			with smtplib.SMTP_SSL(smtp_server, port, context = context) as server:
+				server.login(sender, password)
+				server.sendmail(sender, reciever, message, )
+
+			
 			#Guardamos la reserva de habitación en la base de datos
+
 			reserva_habitacion.save()
 
-			# pasamos info al otro taplate para procesar el pago
+			# pasamos info al otro template para procesar el pago
+
 			reserva_usuario = Reservas_habitacion.objects.all()
 			reserva_usuario = reserva_usuario.filter(identificador=identificador)
 			dias_reserva = fecha_salida - fecha_entrada
-
-
 			template= 'pago.html'
-
-
-
-
 			context = {
 
 				'id':identificador,
@@ -212,30 +222,126 @@ def habitacion_detail(request):
 
 	return render(request, template, context)
 
+# cancelar la reserva
+
+def cancel_res(request):
+
+	if request.method == 'POST':
+
+		id_reserva = request.POST['id_reserva']
+
+		reserva_a_cancelar = Reservas_habitacion.objects.get(identificador=id_reserva)
+		actualizarForm = ReservasHabitacionForm(request.POST, instance=reserva_a_cancelar)
+
+		reserva_a_cancelar.status_payment = 'Cancelado'
+		reserva_a_cancelar.save()
+
+	template = 'pago.html'
+	context = {
+
+		'reserva_cancelada' : reserva_a_cancelar
+	}
+
+	return render(request, template, context)
 
 
-
-def confirmar_pago(request):
-
-    
-    reserva = Reservas_habitacion.objects.all()
-    
-   
-
-
-    context = {
-
-        'reserva' : reserva,
-        
-        
-
-    }
-    return render(request,'pago.html', context)
+	#	aquí modificamos los atributos de la reserva para establecer si se cancelará
+	#	si sera pago en efectivo o por Mercado Pago
 
 def mercado_pago(request):
 
-    return render(request, 'pago1.php', {})
+	if request.method == 'GET':
 
-def pago_efectivo(request):
+		id1 = request.GET['identificador']
+		metodo = 'Mercado Pago'
+		statusPayment = request.GET['estado']
 
-    return render(request, 'pago_efectivo.html', {})
+		reserva_actual = Reservas_habitacion.objects.get(identificador=id1)
+		# reserva_actual = reserva_actual1.get(identificador=id1)
+		actualizarForm = ReservasHabitacionForm(request.GET, instance=reserva_actual)
+
+
+		reserva_actual.metodo_de_pago = metodo
+		reserva_actual.status_payment = statusPayment
+
+
+		reserva_actual.save()
+		
+
+	template = 'pago.html'
+	context = {
+
+		'metodo' : metodo,
+		'id' : id1,
+		'estado' : statusPayment
+		
+	}
+
+	return render(request, template, context)
+
+
+
+
+
+def actualizacion(request):
+	
+	if request.method == 'POST':
+
+		id1 = request.POST['id1']
+		metodo = request.POST['metodo']
+		statusPayment = request.POST['StatusPayment']
+
+		reserva_actual = Reservas_habitacion.objects.get(identificador=id1)
+		# reserva_actual = reserva_actual1.get(identificador=id1)
+		actualizarForm = ReservasHabitacionForm(request.POST, instance=reserva_actual)
+		
+
+		reserva_actual.metodo_de_pago = request.POST['metodo']
+		reserva_actual.status_payment = request.POST['StatusPayment']
+		
+		
+
+		
+
+		reserva_actual.save()
+		
+
+	template = 'pago.html'
+	context = {
+
+		'metodo' : metodo,
+		'id' : id1,
+		'estado' : statusPayment
+		
+	}
+
+	return render(request, template, context)
+
+
+def listar_reservas(request):
+	
+	usuario1 = request.user
+	reservas1 = Reservas_habitacion.objects.all()
+	reservas = (reservas1.filter(usuario=usuario1))
+
+
+	template = 'listar_reservas.html'
+	context = {
+
+		'usuario' : usuario1,
+		'reservas' : reservas
+	}
+
+	return render(request, template, context)
+
+def eliminar_reserva(request):
+
+	if request.method == 'POST':
+
+		identificador = request.POST['identificador']
+		reserva_to_delete = Reservas_habitacion.objects.filter(identificador=identificador)
+
+		reserva_to_delete.delete()
+
+		return redirect('mis_reservas')
+

@@ -1,0 +1,80 @@
+{% extends 'base.html' %} {%block title%} Hotel BIT | Mis Reservas {% endblock title%} {% block nombre_usuario %} {% if user.is_autenticate %}
+<span>hola username</span> {% else %}
+<span>No has iniciado sesión</span> {% endif %} {% endblock nombre_usuario %} {% block content %}
+<div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url(../static/img/bg-img/16.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcrumb-content text-center">
+                    <h2 class="page-title">Mis Reservas</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Mis Reservas</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %} {% block habitaciones %}
+
+<h2> Habitaciones Disponibles para ti</h2>
+
+{% endblock habitaciones %} {% block habitaciones_slide %}
+
+
+<div class="roberto-rooms-area section-padding-100-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <!-- Single Room Area -->
+                {% if not reservas %}
+                <h2>No tienes ningua Reserva Actualmente. ¡ Qué Esperas !</h2>
+
+                <br>
+                <a class="btn roberto-btn mb-50" href=" ../home ">¡ RESERVA YA !</a> {% endif %} {% for cuarto in reservas %}
+
+                <div class="single-room-area d-flex align-items-center mb-50 wow fadeInUp" data-wow-delay="300ms">
+                    <!-- Room Thumbnail -->
+                    <div class="room-thumbnail">
+                        <img src="../static/img/bg-img/{{ cuarto }}.jpg" alt="media/{{ cuarto.image}}">
+                    </div>
+                    <!-- Room Content -->
+                    <div class="room-content">
+
+                        <h2>{{ cuarto }}</h2>
+                        <h4>{{ cuarto.identificador}} <span> N°reserva</span></h4>
+                        <div class="room-feature">
+                            <h6>Ocupantes: <span>Para {{cuarto.ocupantes}} personas</span></h6>
+                            <h6>Reservado: <span>{{ cuarto.reserva_reserva.fecha_reserva }}</span></h6>
+                            <h6>Tipo de Pago:<span> {{ cuarto.metodo_de_pago}} </span></h6>
+                            <h6>Pago:<span>{{ cuarto.status_payment  }}</span></h6>
+                            <h6>Precio:<span>$ {{ cuarto.precio_total  }}</span></h6>
+                            <h6>Días Reserva: <span>{{ cuarto.fecha_entrada }}</span>{{ cuarto.fecha_salida }}</h6>
+
+                        </div>
+                        <form action="{% url 'eliminar_reserva'  %}" method="post"> {% csrf_token %}
+                            <input type="number" name="identificador" value="{{ cuarto.identificador }}" hidden>
+
+
+
+                            <button class="btn roberto-btn mb-50"> Eliminar </button>
+
+                        </form>
+
+
+
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+
+
+    {% endblock habitaciones_slide %}
