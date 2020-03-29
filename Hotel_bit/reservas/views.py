@@ -31,7 +31,7 @@ def mercado(req, **kwargs):
 
         return json.dumps(preferenceResult, indent=4)
 
-	# Create your views here.
+	# Create your views here.		
 
 	# def reservar(request):
 
@@ -49,7 +49,7 @@ def mercado(req, **kwargs):
 def editar_reserva(request): 
 
    
-
+	
     a = datetime.now()
     hoy = int(a.strftime('%d%m%Y'))
     habitacion = Habitaciones.objects.all()
@@ -57,7 +57,8 @@ def editar_reserva(request):
 
     if request.POST.get('Numero_Personas'):
         numero_personas = int(request.POST.get('Numero_Personas'))
-        habitacion = habitacion.filter(capacidad__gt=numero_personas)
+        habitacion = habitacion.filter(capacidad__gt=numero_personas)	
+		
         
         fecha_egreso_sucia = request.POST.get('Fecha_egreso')
         fecha_egreso_limpia = str(fecha_egreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
