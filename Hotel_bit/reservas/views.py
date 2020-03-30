@@ -48,8 +48,6 @@ def mercado(req, **kwargs):
 
 def editar_reserva(request): 
 
-   
-
     a = datetime.now()
     hoy = int(a.strftime('%d%m%Y'))
     habitacion = Habitaciones.objects.all()
@@ -84,6 +82,20 @@ def editar_reserva(request):
                       'cantidad_personas' : numero_personas
                       
                     })
+
+def filtrar(request, editar_reserva):
+
+	fecha_entrada = request.POST['fecha_entrada']
+	consultaReserva = Reservas_habitacion.objects.all()
+	respuesta = consultaReserva.filter(fecha_entrada__gt=fecha_entrada) #__gt = < & __gte = >
+	
+
+	template='editar_reserva.html'
+	context={
+		'respuesta' : respuesta
+	}
+
+	return render(request, template, context)
 
 
 def habitacion_detail(request): 
