@@ -74,6 +74,7 @@ class Habitaciones(models.Model):
 	garaje = models.IntegerField(default=0)
 	camas = models.IntegerField(default=0)
 	capacidad = models.IntegerField(default=1)
+	cantidad = models.IntegerField(default=1)
 	
 	def __str__(self):
 		return self.descripcion
@@ -137,6 +138,19 @@ class Reservas_habitacion(models.Model):
 	class Meta:
 		verbose_name = 'Reserva habitacion'
 		verbose_name_plural = 'Reservas habitaciones'
+
+
+class CantidadReservas(models.Model):
+	reserva_habitacion = models.ForeignKey('Habitaciones', on_delete=models.CASCADE)
+	limite = models.IntegerField('limite', default=10)
+
+	class Meta:
+		verbose_name = 'Cantidad de Reservas'
+		verbose_name_plural = 'Cantidad de Reservas'
+
+	def __str__(self):
+		return str(self.reserva_habitacion)
+	
 
 # Los modelos de arriba los agregue hoy
 

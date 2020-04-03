@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, render
 import random
 from django.contrib.auth.models import User
-from .forms import ReservasHabitacionForm
-from .models import Habitacion, Reserva_habitacion, Habitaciones, Reserva
+from .forms import ReservasHabitacionForm, HabitacionForm
+from .models import Habitacion, Reserva_habitacion, Habitaciones, Reserva, CantidadReservas
 from datetime import date, datetime, timedelta
 from _datetime import timedelta
 from .models import Reserva, Reservas_habitacion, Tipo_alojamiento
@@ -10,6 +10,8 @@ import mercadopago
 import json
 from asyncio.sslproto import ssl
 import smtplib
+from django.http import request
+from django.db.models import Q
 
 
 
@@ -83,16 +85,70 @@ def editar_reserva(request):
                       
                     })
 
-def filtrar(request, editar_reserva):
+def filtrar(request): # Mejorando el código de filtro y búsqueda.
 
-	fecha_entrada = request.POST['fecha_entrada']
-	consultaReserva = Reservas_habitacion.objects.all()
-	respuesta = consultaReserva.filter(fecha_entrada__gt=fecha_entrada) #__gt = < & __gte = >
+	ocupantes = request.POST['Numero_Personas']
+
+	fecha_entrada_str =  str(request.POST['Fecha_ingreso'])
+	fecha_entrada = datetime.strptime(fecha_entrada_str, '%Y-%m-%d')
+
+	fecha_salida_str =  str(request.POST['Fecha_egreso'])
+	fecha_salida = datetime.strptime(fecha_salida_str, '%Y-%m-%d')
 	
+	# gte == mayoro igual lte == menor o igual  gt == mayor & lt == menor 
+	reservas_para_filtrar = Reservas_habitacion.objects.all()
+	
+	reservas = reservas_para_filtrar.filter(
+	 Q(fecha_entrada__gte=fecha_entrada) 
+	&Q(fecha_salida__lte=fecha_salida)#caso1 
+
+	|Q(fecha_entrada__lte=fecha_entrada)
+	&Q(fecha_salida__lte=fecha_salida)
+	&Q(fecha_salida__gte=fecha_entrada)#caso2
+	
+	|Q(fecha_entrada__gte=fecha_entrada)
+	&Q(fecha_salida__gte=fecha_salida)
+	&Q(fecha_entrada__lte=fecha_salida)#caso3
+
+	|Q(fecha_entrada__lte=fecha_entrada)
+	&Q(fecha_salida__gte=fecha_salida))#caso4	
+
+	#################################################################################
+	lista = []
+	for descripcion in reservas :
+
+		habitacion_lista = descripcion.reserva_habitacion # obtenemos la Habitación Reservada en esa fecha
+		lista.append(habitacion_lista) # agregamos a lista las habitaciones que estan reservadas en la fecha que el user ingreso
+
+
+	a = 1 # para total resultados
+	b = 0 # para indice de lista	
+	
+	for i in lista:
+		# filtramos las habitaciones excluyendo las que estan reservadas en esas fechas 
+		lista2 = Habitaciones.objects.filter(capacidad__gte=ocupantes).exclude(descripcion=lista[b])
+		
+		a+=1
+		b+=1
+
+	if lista:
+	 	lista
+	else:
+	 	lista2 = Habitaciones.objects.filter(capacidad__gte=ocupantes)
+
+	
+
 
 	template='editar_reserva.html'
 	context={
-		'respuesta' : respuesta
+		'habitacion' : lista2,
+		'fecha_ingreso' : fecha_entrada,
+		'fecha_egreso' : fecha_salida,
+		'cantidad_personas' : ocupantes,
+		'fecha_entrada' : fecha_entrada_str,
+		'fecha_salida' : fecha_salida_str
+				 	
+		
 	}
 
 	return render(request, template, context)
@@ -142,6 +198,8 @@ def habitacion_detail(request):
 			precio = precio_pension + 100
 		precio_total = precio
 
+		
+
 		dia1 = timedelta(days=5)
 		dia2 = timedelta(days=1)
 		dias = dia1 - dia2
@@ -172,6 +230,9 @@ def habitacion_detail(request):
 				reserva_reserva=reserva_reserva,
 				precio_total=(int(precio_total)*int(ocupantes)),
 				identificador = identificador)
+			actualizar = habitacion_detail.cantidad -1
+			habitacion_detail.cantidad = actualizar
+			habitacion_detail.save() 
 			# configuracion de servicio smtp para emails
 
 			smtp_server = 'smtp.gmail.com'
