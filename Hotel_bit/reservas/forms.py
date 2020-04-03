@@ -1,6 +1,17 @@
 from django import forms
 from .models import Habitacion, Reserva_habitacion
-from .models import Habitaciones, Reserva, Tipo_alojamiento, Tipo_pension, Precio_pension, Reservas_habitacion
+from .models import Habitaciones, Reserva, Tipo_alojamiento, Tipo_pension, Precio_pension, Reservas_habitacion, CantidadReservas
+
+class CantidadReservasForm(forms.ModelForm):
+	class Meta:
+		model : CantidadReservas
+		fields = '__all__'
+
+
+class HabitacionForm(forms.ModelForm):
+	class Meta:
+		model : Habitaciones
+		fields = 'cantidad',
 
 class ReservaForm(forms.ModelForm):
 	class Meta:
