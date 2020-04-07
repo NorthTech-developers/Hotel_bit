@@ -48,43 +48,43 @@ def mercado(req, **kwargs):
 		
 	#     return render(request, 'reservar.html', {})
 
-def editar_reserva(request): 
+# def editar_reserva(request): antiguo filtro jajaja
 
-    a = datetime.now()
-    hoy = int(a.strftime('%d%m%Y'))
-    habitacion = Habitaciones.objects.all()
+#     a = datetime.now()
+#     hoy = int(a.strftime('%d%m%Y'))
+#     habitacion = Habitaciones.objects.all()
     
 
-    if request.POST.get('Numero_Personas'):
-        numero_personas = int(request.POST.get('Numero_Personas'))
-        habitacion = habitacion.filter(capacidad__gt=numero_personas)	
+#     if request.POST.get('Numero_Personas'):
+#         numero_personas = int(request.POST.get('Numero_Personas'))
+#         habitacion = habitacion.filter(capacidad__gt=numero_personas)	
 		
         
-        fecha_egreso_sucia = request.POST.get('Fecha_egreso')
-        fecha_egreso_limpia = str(fecha_egreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
-        fecha_egreso = datetime.strptime(fecha_egreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
-        fecha_egreso = fecha_egreso.date()
+#         fecha_egreso_sucia = request.POST.get('Fecha_egreso')
+#         fecha_egreso_limpia = str(fecha_egreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
+#         fecha_egreso = datetime.strptime(fecha_egreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
+#         fecha_egreso = fecha_egreso.date()
 
-        fecha_ingreso_sucia = request.POST.get('Fecha_ingreso')
-        fecha_ingreso_limpia = str(fecha_ingreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
-        fecha_ingreso = datetime.strptime(fecha_ingreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
-        fecha_ingreso = fecha_ingreso.date()
+#         fecha_ingreso_sucia = request.POST.get('Fecha_ingreso')
+#         fecha_ingreso_limpia = str(fecha_ingreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
+#         fecha_ingreso = datetime.strptime(fecha_ingreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
+#         fecha_ingreso = fecha_ingreso.date()
         
-        dias_reserva =  fecha_egreso - fecha_ingreso
-    else:
-        dias_reserva = "Completar Formulario"
+#         dias_reserva =  fecha_egreso - fecha_ingreso
+#     else:
+#         dias_reserva = "Completar Formulario"
 
        
-    return render(request, 'editar_reserva.html', 
-                    { 'habitacion':habitacion, 
-                      'dias_reserva': dias_reserva, 
-                      'fecha_ingreso': fecha_ingreso, 
-                      'fecha_egreso': fecha_egreso , 
-                      'fecha_entrada' : fecha_ingreso_sucia, 
-                      'fecha_salida' : fecha_egreso_sucia,
-                      'cantidad_personas' : numero_personas
+#     return render(request, 'editar_reserva.html', 
+#                     { 'habitacion':habitacion, 
+#                       'dias_reserva': dias_reserva, 
+#                       'fecha_ingreso': fecha_ingreso, 
+#                       'fecha_egreso': fecha_egreso , 
+#                       'fecha_entrada' : fecha_ingreso_sucia, 
+#                       'fecha_salida' : fecha_egreso_sucia,
+#                       'cantidad_personas' : numero_personas
                       
-                    })
+#                     })
 
 def filtrar(request): # Mejorando el código de filtro y búsqueda.
 
@@ -127,11 +127,14 @@ def filtrar(request): # Mejorando el código de filtro y búsqueda.
 	
 	for i in lista:
 		# filtramos las habitaciones excluyendo las que estan reservadas en esas fechas 
-		lista2 = Habitaciones.objects.filter(capacidad__gte=ocupantes).exclude(descripcion=lista[b])
+		lista2 = Habitaciones.objects.filter(capacidad__gte=ocupantes).exclude(descripcion=lista[b].descripcion)
+
 		
 		a+=1
 		b+=1
 
+	
+	
 	if lista:
 	 	lista
 	else:
@@ -185,16 +188,16 @@ def habitacion_detail(request):
 		tipo_pension = request.POST['pension']
 		precio_pension = 0
 		if tipo_pension == 'completa':
-			precio_pension = 150.00
+			precio_pension = 500.00
 		elif tipo_pension == 'media':
-			precio_pension = 100.00
+			precio_pension = 250.00
 		elif tipo_pension == 'desayuno':
-			precio_pension = 60.00
+			precio_pension = 200.00
 		elif tipo_pension == 'nada':
 			precio_pension = 0.00
 		tipo_alojamiento = Tipo_alojamiento.objects.get(habitacion_tipo_alojamiento=habitacion_detail)
 		if tipo_alojamiento.descripcion == 'doble':
-			precio = precio_pension + 200
+			precio = precio_pension + precio_pension
 		elif tipo_alojamiento.descripcion == 'individual':
 			precio = precio_pension + 100
 		precio_total = precio
@@ -255,7 +258,7 @@ def habitacion_detail(request):
 				Ocupantes: """ + str(ocupantes) + """
 				Descripcion de la habitacion: """ + str(habitacion) + """
 				Fecha de la reserva: """ + str(reserva_reserva) + """
-				Precio: """ + str(precio) + """
+				Precio: """ + str(precio_total) + """
 				Puede ver su reserva aqui-> http://127.0.0.1:8000/reservar/mis_reservas
 
 				Encantados de poder contar contigo. Hotel BIT 2020
