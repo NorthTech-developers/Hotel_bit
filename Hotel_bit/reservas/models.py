@@ -49,7 +49,10 @@ status_payment = (
 	('Aprovado', 'Aprovado'),
 	('Pendiente', 'Pendiente'),
 	('Fallo', 'Fallo'),
-	('Cancelado', 'Cancelado')
+	('Cancelado', 'Cancelado'),
+	('Activa', 'Activa'),
+	('Finalizada', 'Finalizada')
+			
 )
 
 

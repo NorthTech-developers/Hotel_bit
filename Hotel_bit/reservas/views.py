@@ -6,87 +6,76 @@ from .models import Habitacion, Reserva_habitacion, Habitaciones, Reserva, Canti
 from datetime import date, datetime, timedelta
 from _datetime import timedelta
 from .models import Reserva, Reservas_habitacion, Tipo_alojamiento
-import mercadopago
-import json
 from asyncio.sslproto import ssl
 import smtplib
 from django.http import request
 from django.db.models import Q
 
+###########################################################################################################################################################
+
+	# Las Habitaciones tienen una cantidad establecida en 10. se muestra si la hab tiene menos de su limite (10) en las fechas indicadas
+	# Para restablecer la habitacion se debe de modificar el atributo cantidad de la misma en la bd,
+	# o esperar hasta la fecha de hoy que corra la funcion actualizar habitaciones, 
+	# la cual toma las fecha finales de las reservas y si son menores que hoy suma 1 a la cantidad disponible de esa habitacion.
+
+############################################################################################################################################################
 
 
-mp = mercadopago.MP("8644071912236672", "8ybOL0xzx35BGErgFcZDpEcFDchqLGLd")
+def filtrar(request): # FILTRAR & ACTUALIZAR ESTADO DE RESERVAS Y HABITACIONES
 
-def mercado(req, **kwargs):
-        preference = { 
-            "items": [
-                {
-                    "title": "Test",
-                    "quantity": 1,
-                    "currency_id": "USD",
-                    "unit_price": 10.4
-                }
-            ]
-        }
+###########################################
+#         ACTUALIZAR HABITACIONES         #
+###########################################	
 
-        preferenceResult = mp.create_preference(preference)
+#SUMAMOS 1 A LA HABITACION SI LLEGA LA FECHA DE SALIDA DE LA RESERVA.
 
-        return json.dumps(preferenceResult, indent=4)
+	hoy = date.today()
 
-	# Create your views here.		
+	reservas_vencidas = Reservas_habitacion.objects.all()
+	reservas_vencidas = reservas_vencidas.filter(fecha_salida__lte=hoy).exclude(status_payment='Finalizada')
 
-	# def reservar(request):
+	habitaciones_ = [] #lista de ahbitaciones total
+	for i in Habitaciones.objects.all():
+		habitaciones_.append(i)
+	
+	for hab in reservas_vencidas:
+		reservas_vencidas_list=[]
+		for i in reservas_vencidas:
+			reservas_vencidas_list.append(i)
+		for i in reservas_vencidas_list:
+			i.status_payment='Finalizada'
+			i.save()
+			hab_ = i.reserva_habitacion
+			a3 = hab_.cantidad
+			hab_.cantidad = a3 +1
+			hab_.save()
+			
 
-	#     if request.method == "POST":
-	#         form = NewsletterForm(request.POST)
+# DESCONTAMOS UNA HABITACION SI LLEGA LA FECHA DE ENTRADA DE LA RESERVA Y LA COLOCAMOS COMO ACTIVA
 
-	#         if form.is_valid():
-	#             form.save()
-		
-	#     else:
-	#         form = NewsletterForm
-		
-	#     return render(request, 'reservar.html', {})
+	reservas_del_dia = Reservas_habitacion.objects.filter(Q(fecha_entrada__lte=hoy) &Q(status_payment='Aprovado') |Q(status_payment='Pendiente'))
 
-# def editar_reserva(request): antiguo filtro jajaja
+	habitaciones_ = [] #lista de habitaciones 
+	for i in Habitaciones.objects.all():
+		habitaciones_.append(i)
+	
+	
+	for hab in reservas_del_dia:
+		reservas_=[]
+		for i in reservas_del_dia:
+			reservas_.append(i)
+		for i in reservas_:
+			i.status_payment='Activa'
+			i.save()
+			habitacion = i.reserva_habitacion
+			cantidad = habitacion.cantidad
+			habitacion.cantidad = cantidad -1
+			habitacion.save()
+			
 
-#     a = datetime.now()
-#     hoy = int(a.strftime('%d%m%Y'))
-#     habitacion = Habitaciones.objects.all()
-    
-
-#     if request.POST.get('Numero_Personas'):
-#         numero_personas = int(request.POST.get('Numero_Personas'))
-#         habitacion = habitacion.filter(capacidad__gt=numero_personas)	
-		
-        
-#         fecha_egreso_sucia = request.POST.get('Fecha_egreso')
-#         fecha_egreso_limpia = str(fecha_egreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
-#         fecha_egreso = datetime.strptime(fecha_egreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
-#         fecha_egreso = fecha_egreso.date()
-
-#         fecha_ingreso_sucia = request.POST.get('Fecha_ingreso')
-#         fecha_ingreso_limpia = str(fecha_ingreso_sucia).replace('-', '') # sustituimos el simbolo - por nada quedando un string
-#         fecha_ingreso = datetime.strptime(fecha_ingreso_sucia, '%Y-%m-%d') #Transformación del string a tipo Date Objects
-#         fecha_ingreso = fecha_ingreso.date()
-        
-#         dias_reserva =  fecha_egreso - fecha_ingreso
-#     else:
-#         dias_reserva = "Completar Formulario"
-
-       
-#     return render(request, 'editar_reserva.html', 
-#                     { 'habitacion':habitacion, 
-#                       'dias_reserva': dias_reserva, 
-#                       'fecha_ingreso': fecha_ingreso, 
-#                       'fecha_egreso': fecha_egreso , 
-#                       'fecha_entrada' : fecha_ingreso_sucia, 
-#                       'fecha_salida' : fecha_egreso_sucia,
-#                       'cantidad_personas' : numero_personas
-                      
-#                     })
-
-def filtrar(request): # Mejorando el código de filtro y búsqueda.
+###########################################
+#      FIN ACTUALIZAR HABITACIONES        #
+###########################################
 
 	ocupantes = request.POST['Numero_Personas']
 
@@ -95,9 +84,23 @@ def filtrar(request): # Mejorando el código de filtro y búsqueda.
 
 	fecha_salida_str =  str(request.POST['Fecha_egreso'])
 	fecha_salida = datetime.strptime(fecha_salida_str, '%Y-%m-%d')
-	
-	# gte == mayoro igual lte == menor o igual  gt == mayor & lt == menor 
-	reservas_para_filtrar = Reservas_habitacion.objects.all()
+
+	#########################################################################################################################################
+
+	# Se han establecido 4 tipos posibles de cruces de fechas las cuales se resumen a continacion tomando en cuenta las siguientes variables:
+	# fecha_entrada = fecha que es introducida en el form por el usuario
+	# fecha_salida =  fecha que es introducida en el form por el usuario
+	# fecha_entrada_r = fecha de la reserva en la base de datos
+	# fecha_salida_r =  fecha de la reserva en la base de datos
+
+	#caso 1 = fecha_entrada_r >= fecha_entrada & fecha_salida_r <= fecha_salida
+	#caso 2 = fecha_entrada_r <= fecha_entrada & fecha_salida_r <= fecha_salida & fecha_entrada_r <= fecha_salida
+	#caso 3 = fecha_entrada_r >= fecha_entrada & fecha_salida_r >= fecha_salida & fecha_entrada_r <= fecha_salida
+	#caso 4 = fecha_entrada_r <= fecha_entrada & fecha_salida_r >= fecha_salida
+
+	##########################################################################################################################################
+	 
+	reservas_para_filtrar = Reservas_habitacion.objects.all().exclude(Q(status_payment='Cancelado') &Q (status_payment='Fallo') &Q (status_payment='Finalizada'))
 	
 	reservas = reservas_para_filtrar.filter(
 	 Q(fecha_entrada__gte=fecha_entrada) 
@@ -114,31 +117,47 @@ def filtrar(request): # Mejorando el código de filtro y búsqueda.
 	|Q(fecha_entrada__lte=fecha_entrada)
 	&Q(fecha_salida__gte=fecha_salida))#caso4	
 
-	#################################################################################
-	lista = []
+	################################################################################
+					# CREANDO LISTAS PARA MOSTRAR AL USUARIO #
+	################################################################################
+	
+	lista = [] # contiene las reservas que coniciden con las fechas del usuario
 	for descripcion in reservas :
 
 		habitacion_lista = descripcion.reserva_habitacion # obtenemos la Habitación Reservada en esa fecha
 		lista.append(habitacion_lista) # agregamos a lista las habitaciones que estan reservadas en la fecha que el user ingreso
 
+	################################################################################
+	# Filtro las reservas en fechas para obtener el numero de reservas para cada hab
+	# si la hab está en su limite para esa fecha será agregada a la lista
+	# para no ser mostrada
+	################################################################################
 
-	a = 1 # para total resultados
-	b = 0 # para indice de lista	
+	hab_quitar = [] # contine las habitaciones que se deben de quitar para no ser mostradas al usuario final
 	
 	for i in lista:
-		# filtramos las habitaciones excluyendo las que estan reservadas en esas fechas 
-		lista2 = Habitaciones.objects.filter(capacidad__gte=ocupantes).exclude(descripcion=lista[b].descripcion)
+		max_r_hab = CantidadReservas.objects.get(reserva_habitacion=i) # int() máximo posible de reservas por habitacion
+		variable_1 = lista.count(i)	# contamos cuantas reservas hay por habitacion
+		if variable_1 == max_r_hab.limite: # si la cantidad de reservas para esa hab. es igual a su limite se agrega a la lista hab_quitar.
+			hab_quitar.append(i) 
 
 		
-		a+=1
-		b+=1
-
+	
+	lista2 = [] # lista final a mostrar al usuario
+	for i in Habitaciones.objects.filter(capacidad__gte=ocupantes):
+		# Creamos una lista con las habitaciones que coinciden los ocupantes y hay por lo menos 1 habitacion disponible
+		lista2.append(i)
+		
+		
+	for i in hab_quitar:
+		if i in lista2:
+			lista2.remove(i) # removemos los elemtos de la lista  en lista 2 (eliminamos las habitaciones reservadas de la lista2)
 	
 	
 	if lista:
-	 	lista
+	 	lista	# si hay elementos en la lista[reservas hechas en esas fechas] continua, sino lista2 tendra todas las habitacionos solo x filtro de ocupantes y dicponibilidad
 	else:
-	 	lista2 = Habitaciones.objects.filter(capacidad__gte=ocupantes)
+	 	lista2 = Habitaciones.objects.filter(capacidad__gte=ocupantes, cantidad__gte=1)
 
 	
 
@@ -165,13 +184,8 @@ def habitacion_detail(request):
 	habitacion_detail = Habitaciones.objects.get(descripcion=request.POST['nombre_habitacion'])
 	reserva = Reserva.objects.all()
 	reservas_habitacion = Reservas_habitacion.objects.all()
-	#Creamos la variable que hará que cargue dicho html
 	template = 'pago.html'
 
-	#Si la habitacion ya esta reservada aparecerá el siguiente html.	
-	# for reserva in reservas_habitacion:
-	# 	if habitacion_detail == reserva.reserva_habitacion:
-	# 		template = 'hotel/detail2.html'
 
 	if request.method == 'POST':
 		#Aquí recogemos los campos del formulario de la reserva de habitacion y lo tratamos
@@ -207,6 +221,7 @@ def habitacion_detail(request):
 		dia1 = timedelta(days=5)
 		dia2 = timedelta(days=1)
 		dias = dia1 - dia2
+
 		identificador = random.randrange(100000)
 	
 		user1 = request.user
@@ -224,7 +239,7 @@ def habitacion_detail(request):
 			reserva_reserva = Reserva(reserva=user1, fecha_reserva=reserva)
 			#Guardamos la reserva en la base de datos
 			reserva_reserva.save()
-			# reserva_reserva = Reserva.objects.latest('fecha_reserva')
+			# cramos la reserva Habitacion con los datos correspondientes y la guardamos en la bd
 			reserva_habitacion = Reservas_habitacion(
 				usuario = user1,
 				fecha_entrada=fecha_entrada, 
@@ -234,10 +249,15 @@ def habitacion_detail(request):
 				reserva_reserva=reserva_reserva,
 				precio_total=(int(precio_total)*int(ocupantes)),
 				identificador = identificador)
-			actualizar = habitacion_detail.cantidad -1
-			habitacion_detail.cantidad = actualizar
-			habitacion_detail.save() 
+			# actualizar = habitacion_detail.cantidad -1
+			# habitacion_detail.cantidad = actualizar
+			# habitacion_detail.save() 
 			# configuracion de servicio smtp para emails
+
+
+			###############################################################
+			#                  ENVIO DE EMAIL AL USUARIO                  #
+			###############################################################
 
 			smtp_server = 'smtp.gmail.com'
 			port = 465
@@ -270,12 +290,15 @@ def habitacion_detail(request):
 				server.login(sender, password)
 				server.sendmail(sender, reciever, message, )
 
+			###############################################################
+			#                 FIN ENVIO DE EMAIL AL USUARIO               #
+			###############################################################
 			
 			#Guardamos la reserva de habitación en la base de datos
 
 			reserva_habitacion.save()
 
-			# pasamos info al otro template para procesar el pago
+			# pasamos info al template para procesar el pago
 
 			reserva_usuario = Reservas_habitacion.objects.all()
 			reserva_usuario = reserva_usuario.filter(identificador=identificador)
@@ -298,10 +321,13 @@ def habitacion_detail(request):
 		}
 
 	return render(request, template, context)
+			###############################################################
+			#                   OPCIONES DE PAGO Y ESTADO                 #
+			###############################################################
 
-# cancelar la reserva
 
-def cancel_res(request):
+
+def cancel_res(request):# cancelar la reserva
 
 	if request.method == 'POST':
 
@@ -357,9 +383,6 @@ def mercado_pago(request):
 	return render(request, template, context)
 
 
-
-
-
 def actualizacion(request):
 	
 	if request.method == 'POST':
@@ -375,10 +398,6 @@ def actualizacion(request):
 
 		reserva_actual.metodo_de_pago = request.POST['metodo']
 		reserva_actual.status_payment = request.POST['StatusPayment']
-		
-		
-
-		
 
 		reserva_actual.save()
 		
@@ -394,6 +413,9 @@ def actualizacion(request):
 
 	return render(request, template, context)
 
+			###############################################################
+			#                 FIN  OPCIONES DE PAGO Y ESTADO              #
+			###############################################################
 
 def listar_reservas(request):
 	
