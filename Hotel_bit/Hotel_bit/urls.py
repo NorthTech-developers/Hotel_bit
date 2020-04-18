@@ -43,5 +43,6 @@ urlpatterns = [
     path('registro/', registro),
     path('perfil/', ver_perfil),
     path('logout/', logout),
+    path('comentarios/', include('comentarios.urls')), #añadí la urls para el sistema de comentarios
     
 ]

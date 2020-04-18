@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'newsletters',
     'contacto',
     'users',
-    'mercadopago'
+    'comentarios',
 ]
 
 MIDDLEWARE = [

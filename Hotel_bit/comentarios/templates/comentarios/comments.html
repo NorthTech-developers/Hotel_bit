@@ -1,0 +1,16 @@
+{% extends 'comentarios/base.html' %}
+
+{% block content %}
+        <a class="btn btn-default" href="{% url 'user_comments' %}">Haz un comentario</a>
+        {% for comentarios in user_comments %}
+            <div class="commentario_usuario">
+                <div class="fecha">
+                    {{ comentarios.fecha_publicacion }}
+                </div>
+                <h2><a href="">{{ comentarios.autor }}</a></h2>
+                <p>{{ comentarios.texto|linebreaksbr }}</p>
+            </div>
+        {% empty %}
+        <p>Aún no hay comentarios para ver</p>
+        {% endfor %}
+{% endblock %}
