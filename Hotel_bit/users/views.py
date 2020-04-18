@@ -19,7 +19,7 @@ def registro(request):
         if form.is_valid():
             user = form.save()
             #Los usuarios registrados quedan en el grupo usuariocomun
-            group = Group.objects.get(name='usuariocomun')
+            group = Group.objects.get(name='dc')
             user.groups.add(group)
             Profile.objects.create(
                 user=user
